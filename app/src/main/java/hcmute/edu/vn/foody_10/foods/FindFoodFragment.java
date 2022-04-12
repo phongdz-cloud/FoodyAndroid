@@ -12,15 +12,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hcmute.edu.vn.foody_10.R;
 
 public class FindFoodFragment extends Fragment {
+    private FindFoodAdapter findFoodAdapter;
+    private List<FoodModel> foodModels;
     private View progressBar;
     private TextView tvEmptyFriendsList;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_find_food, container, false);
     }
 
@@ -32,6 +38,30 @@ public class FindFoodFragment extends Fragment {
         tvEmptyFriendsList = view.findViewById(R.id.tvEmptyFoodList);
         rvFindFoods.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        foodModels = new ArrayList<>();
+        findFoodAdapter = new FindFoodAdapter(getActivity(), foodModels);
+        rvFindFoods.setAdapter(findFoodAdapter);
+
         tvEmptyFriendsList.setVisibility(View.VISIBLE);
+
+        dataFood();
+        if (foodModels.size() > 0) {
+            tvEmptyFriendsList.setVisibility(View.GONE);
+        }
+        findFoodAdapter.notifyDataSetChanged();
+
+
+    }
+
+    public FindFoodAdapter getFindFoodAdapter() {
+        return findFoodAdapter;
+    }
+
+    public void dataFood() {
+        foodModels.add(new FoodModel(1, R.drawable.banh_trang, "Bánh tráng", "Bánh tráng nướng", 123456.79f));
+        foodModels.add(new FoodModel(2, R.drawable.com_chay, "Cơm cháy", "Cơm cháy chà bông", 12.2f));
+        foodModels.add(new FoodModel(3, R.drawable.banh_plan, "Bánh flan", "Bánh plan", 12.2f));
+        foodModels.add(new FoodModel(4, R.drawable.hu_tieu, "Hủ tiếu", "Hủ tiếu", 12.2f));
+
     }
 }

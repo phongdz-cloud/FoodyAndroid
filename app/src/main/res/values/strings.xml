@@ -20,4 +20,5 @@
     <string name="empty_food_list">Food list will appear here</string>
     <string name="empty_beverage_list">Beverage list will appear here</string>
     <string name="empty_order_list">Order list will appear here</string>
+    <string name="search">Search</string>
 </resources>

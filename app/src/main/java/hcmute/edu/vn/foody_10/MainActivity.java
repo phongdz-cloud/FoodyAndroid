@@ -1,11 +1,18 @@
 package hcmute.edu.vn.foody_10;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -15,13 +22,15 @@ import com.google.android.material.tabs.TabLayout;
 
 import hcmute.edu.vn.foody_10.foods.FindBeverageFragment;
 import hcmute.edu.vn.foody_10.foods.FindFoodFragment;
+import hcmute.edu.vn.foody_10.login.LoginActivity;
 import hcmute.edu.vn.foody_10.orders.FindOrdersFragment;
+import hcmute.edu.vn.foody_10.profile.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private boolean doubleBackPressed = false;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+//                if (tab.getPosition() == 2) {
+//                    if (LoginActivity.isLogin) {
+//                        viewPager.setCurrentItem(tab.getPosition());
+//                    } else {
+//                        checkLoginUser();
+//                    }
+//                }
             }
 
             @Override
@@ -65,15 +81,71 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void checkLoginUser() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+        dialog.setTitle("Yes");
+        dialog.setMessage("You need to login to perform this function?");
+        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
+        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dialog.show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.mnuSearch).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        FindFoodFragment fragment = (FindFoodFragment) getSupportFragmentManager().getFragments().get(viewPager.getCurrentItem());
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                FindFoodFragment fragment = (FindFoodFragment) getSupportFragmentManager().getFragments().get(viewPager.getCurrentItem());
+                fragment.getFindFoodAdapter().getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                fragment.getFindFoodAdapter().getFilter().filter(newText);
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.mnuProfile) {
+            if (LoginActivity.isLogin) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            } else {
+                checkLoginUser();
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
         // super.onBackPressed();
+        if(!searchView.isIconified()){
+            searchView.setIconified(true);
+            return;
+        }
         if (tabLayout.getSelectedTabPosition() > 0) {
             tabLayout.selectTab(tabLayout.getTabAt(0));
         } else {
@@ -120,4 +192,6 @@ public class MainActivity extends AppCompatActivity {
             return tabLayout.getTabCount();
         }
     }
+
+
 }
