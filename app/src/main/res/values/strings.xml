@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Foody App Android</string>
+    <string name="enter_email">Enter email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="login">Login</string>
+    <string name="reset_password">Forgot password</string>
+    <string name="donthave_account">Dont have account?</string>
+    <string name="signup">Sign up</string>
+    <string name="enter_name">Enter name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="loading">Load</string>
+    <string name="food">Food</string>
+    <string name="beverage">Beverage</string>
+    <string name="order">Order</string>
+    <string name="save">Save</string>
+    <string name="change_password">Change password</string>
+    <string name="logout">Logout</string>
+    <string name="press_back_to_exit">Press back to exit</string>
+    <string name="profile">profile</string>
+    <string name="empty_food_list">Food list will appear here</string>
+    <string name="empty_beverage_list">Beverage list will appear here</string>
+    <string name="empty_order_list">Order list will appear here</string>
+</resources>
