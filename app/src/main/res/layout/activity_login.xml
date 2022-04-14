@@ -71,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:onClick="btnLoginClick"
                 android:text="@string/login" />
 
             <TextView
@@ -109,6 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="tvSignUpClick"
             android:text="@string/signup"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorPrimary" />

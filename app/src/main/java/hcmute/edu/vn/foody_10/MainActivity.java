@@ -4,12 +4,19 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -19,18 +26,27 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
+import hcmute.edu.vn.foody_10.common.Common;
+import hcmute.edu.vn.foody_10.common.Constants;
+import hcmute.edu.vn.foody_10.database.Database;
 import hcmute.edu.vn.foody_10.foods.FindBeverageFragment;
 import hcmute.edu.vn.foody_10.foods.FindFoodFragment;
 import hcmute.edu.vn.foody_10.login.LoginActivity;
 import hcmute.edu.vn.foody_10.orders.FindOrdersFragment;
 import hcmute.edu.vn.foody_10.profile.ProfileActivity;
+import hcmute.edu.vn.foody_10.signup.User;
 
 public class MainActivity extends AppCompatActivity {
+    private ImageView ivProfile;
+    private TextView tvUsername, tvState;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private boolean doubleBackPressed = false;
     private SearchView searchView;
+    public static Database database;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +54,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         binding();
 
+        database = new Database(this, "foody.sqlite", null, 1);
+        createTableUser();
+
+
         setViewPager();
+    }
+
+    private void createTableUser() {
+        database.QueryData("create table if not exists User(\n" +
+                "\tid int auto_increment PRIMARY KEY,\n" +
+                "    name varchar(255),\n" +
+                "    email varchar(255) unique,\n" +
+                "    password varchar(255),\n" +
+                "    avatar blob\n" +
+                ");");
     }
 
 
     private void binding() {
         tabLayout = findViewById(R.id.tabMain);
         viewPager = findViewById(R.id.vpMain);
+
     }
 
     private void setViewPager() {
@@ -53,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setCustomView(R.layout.tab_order));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        viewPager.setOffscreenPageLimit(2);
         Adapter adapter = new Adapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(adapter);
 
@@ -60,13 +92,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-//                if (tab.getPosition() == 2) {
-//                    if (LoginActivity.isLogin) {
-//                        viewPager.setCurrentItem(tab.getPosition());
-//                    } else {
-//                        checkLoginUser();
-//                    }
-//                }
             }
 
             @Override
@@ -88,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
         dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
         dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -107,18 +133,30 @@ public class MainActivity extends AppCompatActivity {
         searchView = (SearchView) menu.findItem(R.id.mnuSearch).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
-        FindFoodFragment fragment = (FindFoodFragment) getSupportFragmentManager().getFragments().get(viewPager.getCurrentItem());
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                FindFoodFragment fragment = (FindFoodFragment) getSupportFragmentManager().getFragments().get(viewPager.getCurrentItem());
-                fragment.getFindFoodAdapter().getFilter().filter(query);
+                Fragment fragment = getSupportFragmentManager().getFragments().get(viewPager.getCurrentItem());
+                if (fragment instanceof FindFoodFragment) {
+                    ((FindFoodFragment) fragment).getFindFoodAdapter().getFilter().filter(query);
+                } else if (fragment instanceof FindBeverageFragment) {
+                    ((FindBeverageFragment) fragment).getFindFoodAdapter().getFilter().filter(query);
+                } else if (fragment instanceof FindOrdersFragment) {
+                    ((FindOrdersFragment) fragment).getFindOrderAdapter().getFilter().filter(query);
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                fragment.getFindFoodAdapter().getFilter().filter(newText);
+                Fragment fragment = getSupportFragmentManager().getFragments().get(viewPager.getCurrentItem());
+                if (fragment instanceof FindFoodFragment) {
+                    ((FindFoodFragment) fragment).getFindFoodAdapter().getFilter().filter(newText);
+                } else if (fragment instanceof FindBeverageFragment) {
+                    ((FindBeverageFragment) fragment).getFindFoodAdapter().getFilter().filter(newText);
+                } else if (fragment instanceof FindOrdersFragment) {
+                    ((FindOrdersFragment) fragment).getFindOrderAdapter().getFilter().filter(newText);
+                }
                 return false;
             }
         });
@@ -130,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.mnuProfile) {
-            if (LoginActivity.isLogin) {
+            if (Common.currentUser != null) {
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             } else {
                 checkLoginUser();
@@ -142,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // super.onBackPressed();
-        if(!searchView.isIconified()){
+        if (!searchView.isIconified()) {
             searchView.setIconified(true);
             return;
         }
@@ -193,5 +231,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadDataUser();
+        if (Common.currentUser != null) {
+            currentUser = Common.currentUser;
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle("");
+                ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.custom_action_mode, null);
+                ivProfile = actionBarLayout.findViewById(R.id.ivProfile);
+                tvUsername = actionBarLayout.findViewById(R.id.tvUserName);
+                tvState = actionBarLayout.findViewById(R.id.tvUserStatus);
+                actionBar.setHomeButtonEnabled(true);
+                actionBar.setElevation(0);
+
+                actionBar.setCustomView(actionBarLayout);
+                actionBar.setDisplayOptions(actionBar.getDisplayOptions() | ActionBar.DISPLAY_SHOW_CUSTOM);
+                if (currentUser != null) {
+                    tvUsername.setText(currentUser.getName());
+                    tvState.setText("online");
+                    byte[] image = currentUser.getAvatar();
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                    ivProfile.setImageBitmap(bitmap);
+                }
+            }
+        }
+    }
+
+    private void loadDataUser() {
+        SharedPreferences userPreferences = getSharedPreferences(Constants.SHARED_PREFERENCE_USER_STATE, MODE_PRIVATE);
+        if (userPreferences != null) {
+            Gson gson = new Gson();
+            String json = userPreferences.getString("user", "");
+            Common.currentUser = gson.fromJson(json, User.class);
+        }
+    }
 
 }

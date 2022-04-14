@@ -21,4 +21,9 @@
     <string name="empty_beverage_list">Beverage list will appear here</string>
     <string name="empty_order_list">Order list will appear here</string>
     <string name="search">Search</string>
+    <string name="email_or_password_incorrect">Email or Password not incorrect</string>
+    <string name="email_invalidate">Email invalidate</string>
+    <string name="password_mismatch">Password mismatch</string>
+    <string name="permission_required">Access permission is required</string>
+    <string name="server_error">Server error : %1$s</string>
 </resources>
