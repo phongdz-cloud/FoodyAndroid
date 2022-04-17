@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,7 +19,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -29,6 +27,7 @@ import java.util.regex.Pattern;
 
 import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.common.Constants;
+import hcmute.edu.vn.foody_10.common.Utils;
 import hcmute.edu.vn.foody_10.database.IUserQuery;
 import hcmute.edu.vn.foody_10.database.UserQuery;
 import hcmute.edu.vn.foody_10.login.LoginActivity;
@@ -36,14 +35,13 @@ import hcmute.edu.vn.foody_10.login.LoginActivity;
 public class SignUpActivity extends AppCompatActivity {
     private ImageView ivProfile;
     private TextInputEditText etName, etEmail, etPassword, etConfirmPassword;
-    private final IUserQuery userQuery =  UserQuery.getInstance();
+    private final IUserQuery userQuery = UserQuery.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         binding();
-
     }
 
     @Override
@@ -103,18 +101,14 @@ public class SignUpActivity extends AppCompatActivity {
             etConfirmPassword.setError(getString(R.string.password_mismatch));
         } else {
             try {
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) ivProfile.getDrawable();
-                Bitmap bitmap = bitmapDrawable.getBitmap();
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteImages = byteArrayOutputStream.toByteArray();
+                byte[] byteImages = Utils.convertImageViewToBytes(ivProfile);
                 User user = new User(null, name, email, password, byteImages);
-                Long insertedUser = userQuery.insert(user);
-                Toast.makeText(this, "User inserted : " + insertedUser, Toast.LENGTH_SHORT).show();
+                userQuery.insert(user);
+                Toast.makeText(this, getString(R.string.sign_up_successfully), Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                 finish();
             } catch (Exception ex) {
-                Toast.makeText(this, "User failed insert!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.sign_up_failed, ex.getMessage()), Toast.LENGTH_SHORT).show();
             }
         }
     }

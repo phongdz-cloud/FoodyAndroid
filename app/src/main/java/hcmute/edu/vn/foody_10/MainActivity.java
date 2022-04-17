@@ -26,17 +26,16 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 
 import hcmute.edu.vn.foody_10.common.Common;
 import hcmute.edu.vn.foody_10.common.Constants;
+import hcmute.edu.vn.foody_10.common.Utils;
 import hcmute.edu.vn.foody_10.database.Database;
 import hcmute.edu.vn.foody_10.foods.FindBeverageFragment;
 import hcmute.edu.vn.foody_10.foods.FindFoodFragment;
 import hcmute.edu.vn.foody_10.login.LoginActivity;
 import hcmute.edu.vn.foody_10.orders.FindOrdersFragment;
 import hcmute.edu.vn.foody_10.profile.ProfileActivity;
-import hcmute.edu.vn.foody_10.signup.User;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView ivProfile;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean doubleBackPressed = false;
     private SearchView searchView;
     public static Database database;
-    private User currentUser;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,21 +53,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         binding();
 
-        database = new Database(this, "foody.sqlite", null, 1);
+        database = new Database(this, "foody_test1.sqlite", null, 1);
         createTableUser();
-
 
         setViewPager();
     }
 
     private void createTableUser() {
-        database.QueryData("create table if not exists User(\n" +
-                "\tid int auto_increment PRIMARY KEY,\n" +
-                "    name varchar(255),\n" +
-                "    email varchar(255) unique,\n" +
-                "    password varchar(255),\n" +
-                "    avatar blob\n" +
-                ");");
+        database.QueryData("create table if not exists user (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "name varchar(255)," +
+                "email varchar(255) unique, " +
+                "password varchar(20)," +
+                "avatar blob);");
     }
 
 
@@ -235,10 +232,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        loadDataUser();
+        SharedPreferences userPreferences = getSharedPreferences(Constants.SHARED_PREFERENCE_USER_STATE, MODE_PRIVATE);
+        Utils.getPreferences(userPreferences);
         if (Common.currentUser != null) {
-            currentUser = Common.currentUser;
-            ActionBar actionBar = getSupportActionBar();
+            actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setTitle("");
                 ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.custom_action_mode, null);
@@ -250,23 +247,12 @@ public class MainActivity extends AppCompatActivity {
 
                 actionBar.setCustomView(actionBarLayout);
                 actionBar.setDisplayOptions(actionBar.getDisplayOptions() | ActionBar.DISPLAY_SHOW_CUSTOM);
-                if (currentUser != null) {
-                    tvUsername.setText(currentUser.getName());
-                    tvState.setText("online");
-                    byte[] image = currentUser.getAvatar();
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-                    ivProfile.setImageBitmap(bitmap);
-                }
+                tvUsername.setText(Common.currentUser.getName());
+                tvState.setText("online");
+                byte[] image = Common.currentUser.getAvatar();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                ivProfile.setImageBitmap(bitmap);
             }
-        }
-    }
-
-    private void loadDataUser() {
-        SharedPreferences userPreferences = getSharedPreferences(Constants.SHARED_PREFERENCE_USER_STATE, MODE_PRIVATE);
-        if (userPreferences != null) {
-            Gson gson = new Gson();
-            String json = userPreferences.getString("user", "");
-            Common.currentUser = gson.fromJson(json, User.class);
         }
     }
 

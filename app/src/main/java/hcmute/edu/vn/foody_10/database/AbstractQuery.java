@@ -1,14 +1,15 @@
 package hcmute.edu.vn.foody_10.database;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import hcmute.edu.vn.foody_10.MainActivity;
-import hcmute.edu.vn.foody_10.common.QueryType;
 import hcmute.edu.vn.foody_10.mapper.RowMapper;
 
 public class AbstractQuery<T> implements GenericQuery<T> {
@@ -24,6 +25,8 @@ public class AbstractQuery<T> implements GenericQuery<T> {
             index = i + 1;
             if (obj instanceof Long) {
                 statement.bindLong(index, (Long) obj);
+            } else if (obj instanceof Integer) {
+                statement.bindLong(index, (Integer) obj);
             } else if (obj instanceof String) {
                 statement.bindString(index, (String) obj);
             } else if (obj instanceof byte[]) {
@@ -36,40 +39,75 @@ public class AbstractQuery<T> implements GenericQuery<T> {
     }
 
 
+    @SuppressLint("Recycle")
     @Override
-    public Object query(String sql, RowMapper<T> rowMapper, QueryType queryType, Object... parameters) {
-        String error = "";
-
+    public List<T> query(String sql, RowMapper<T> rowMapper) {
+        List<T> results = new ArrayList<>();
+        Cursor cursor = null;
+        SQLiteDatabase dbQuery = null;
         try {
-            switch (queryType) {
-                case SELECT:
-                    List<T> results = new ArrayList<>();
-                    Cursor cursor = database.getReadableDatabase().rawQuery(sql, null);
-                    while (cursor.moveToNext()) {
-                        results.add(rowMapper.mapRow(cursor));
-                    }
-                    cursor.close();
-                    return results;
-                case INSERT:
-                    SQLiteStatement statementInsert = setParameter(sql, parameters);
-                    Long id = statementInsert.executeInsert();
-                    statementInsert.close();
-                    return id;
-                case UPDATE:
-                case DELETE:
-                    SQLiteStatement statementUpdateOrDelete = setParameter(sql, parameters);
-                    Integer idUpdateOrDelete = statementUpdateOrDelete.executeUpdateDelete();
-                    statementUpdateOrDelete.close();
-                    return idUpdateOrDelete;
-                default:
-                    return null;
+            dbQuery = this.database.getReadableDatabase();
+            cursor = dbQuery.rawQuery(sql, null);
+            while (cursor.moveToNext()) {
+                results.add(rowMapper.mapRow(cursor));
             }
+            return results;
         } catch (Exception ex) {
-            Log.e("query", error + " : " + ex.getMessage());
-            return null;
+            ex.printStackTrace();
         } finally {
-            database.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
+        return null;
     }
 
+    @Override
+    public Long insert(String sql, Object... parameters) {
+        try (SQLiteStatement statementInsert = setParameter(sql, parameters)) {
+            return statementInsert.executeInsert();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer update(String sql, Object... parameters) {
+
+        try (SQLiteStatement statementUpdate = setParameter(sql, parameters)) {
+            return statementUpdate.executeUpdateDelete();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public T findById(String sql, RowMapper<T> rowMapper) {
+        Cursor cursor = null;
+        try {
+            SQLiteDatabase dbQuery = this.database.getReadableDatabase();
+            cursor = dbQuery.rawQuery(sql, null);
+            cursor.moveToNext();
+            return rowMapper.mapRow(cursor);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Integer delete(String sql, Integer id)   {
+        try (SQLiteStatement statementDelete = setParameter(sql, id)) {
+            return statementDelete.executeUpdateDelete();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }

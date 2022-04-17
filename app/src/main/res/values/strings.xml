@@ -26,4 +26,11 @@
     <string name="password_mismatch">Password mismatch</string>
     <string name="permission_required">Access permission is required</string>
     <string name="server_error">Server error : %1$s</string>
+    <string name="change_password_succesfully">Change password successfully!</string>
+    <string name="sign_up_successfully">Sign up successfully!</string>
+    <string name="sign_up_failed">Sign up failed : %1$s</string>
+    <string name="update_profile_successfully">Update profile successfully</string>
+    <string name="update_profile_failed">Update profile failed</string>
+    <string name="change_picture">Change picture</string>
+    <string name="remove_picture">Remove picture</string>
 </resources>

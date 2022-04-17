@@ -1,7 +1,6 @@
 package hcmute.edu.vn.foody_10.database;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -17,12 +16,6 @@ public class Database extends SQLiteOpenHelper {
     public void QueryData(String sql) {
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL(sql);
-    }
-
-    // truy vấn có trả kết quả: SELECT
-    public Cursor GetData(String sql) {
-        SQLiteDatabase database = getReadableDatabase();
-        return database.rawQuery(sql, null);
     }
 
     @Override
