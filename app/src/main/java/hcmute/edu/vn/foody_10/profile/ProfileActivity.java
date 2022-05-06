@@ -5,8 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -21,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
@@ -58,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(view -> {
-             Common.currentUser.setAvatar(Utils.convertImageViewToBytes(ivProfile));
+            Common.currentUser.setAvatar(Utils.convertImageViewToBytes(ivProfile));
             final String name = Objects.requireNonNull(etName.getText()).toString();
             try {
                 User user = userQuery.findById(Common.currentUser.getId());
@@ -85,7 +84,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_FOLDER && resultCode == RESULT_OK && data != null) {
             ivProfile.setImageBitmap(Utils.convertUriToBitmap(data, getContentResolver()));
-            btnSave.performClick();
         }
     }
 
@@ -173,9 +171,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void dataProfile() {
-        byte[] image = Common.currentUser.getAvatar();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-        ivProfile.setImageBitmap(bitmap);
+        Glide.with(this)
+                .load(Common.currentUser.getAvatar())
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .into(ivProfile);
         etName.setText(Common.currentUser.getName());
         etEmail.setText(Common.currentUser.getEmail());
     }

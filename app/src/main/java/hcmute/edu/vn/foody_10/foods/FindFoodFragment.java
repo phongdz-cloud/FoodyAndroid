@@ -16,12 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hcmute.edu.vn.foody_10.R;
+import hcmute.edu.vn.foody_10.database.FoodQuery;
+import hcmute.edu.vn.foody_10.database.IFoodQuery;
 
 public class FindFoodFragment extends Fragment {
     private FindFoodAdapter findFoodAdapter;
     private List<FoodModel> foodModels;
     private View progressBar;
     private TextView tvEmptyFriendsList;
+    private IFoodQuery foodQuery;
 
     @Nullable
     @Override
@@ -33,6 +36,7 @@ public class FindFoodFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        foodQuery = FoodQuery.getInstance();
         RecyclerView rvFindFoods = view.findViewById(R.id.rvFindFoods);
         progressBar = view.findViewById(R.id.progressBar);
         tvEmptyFriendsList = view.findViewById(R.id.tvEmptyFoodList);
@@ -58,10 +62,7 @@ public class FindFoodFragment extends Fragment {
     }
 
     public void dataFood() {
-        foodModels.add(new FoodModel(1, R.drawable.banh_trang, "Bánh tráng", "Bánh tráng nướng", 123456.79f));
-        foodModels.add(new FoodModel(2, R.drawable.com_chay, "Cơm cháy", "Cơm cháy chà bông", 12.2f));
-        foodModels.add(new FoodModel(3, R.drawable.banh_plan, "Bánh flan", "Bánh plan", 12.2f));
-        foodModels.add(new FoodModel(4, R.drawable.hu_tieu, "Hủ tiếu", "Hủ tiếu", 12.2f));
-
+        List<FoodModel> results = foodQuery.findFoodByCodeCategory("DA");
+        foodModels.addAll(results);
     }
 }

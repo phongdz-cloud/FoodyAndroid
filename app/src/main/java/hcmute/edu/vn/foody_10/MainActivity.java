@@ -1,12 +1,11 @@
 package hcmute.edu.vn.foody_10;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +24,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 
 import hcmute.edu.vn.foody_10.common.Common;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         database = new Database(this, "foody_test1.sqlite", null, 1);
         createTableUser();
-
+        createTableCategory();
         setViewPager();
     }
 
@@ -66,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
                 "email varchar(255) unique, " +
                 "password varchar(20)," +
                 "avatar blob);");
+    }
+
+    private void createTableCategory() {
+        database.QueryData("create table if not exists category(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "name varchar(255), " +
+                "code varchar(255)" +
+                ")");
     }
 
 
@@ -84,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(2);
         Adapter adapter = new Adapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(adapter);
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -146,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Fragment fragment = getSupportFragmentManager().getFragments().get(viewPager.getCurrentItem());
+                Fragment fragment = getSupportFragmentManager().getFragments().get(viewPager.getCurrentItem() + 1);
                 if (fragment instanceof FindFoodFragment) {
                     ((FindFoodFragment) fragment).getFindFoodAdapter().getFilter().filter(newText);
                 } else if (fragment instanceof FindBeverageFragment) {
@@ -249,9 +257,17 @@ public class MainActivity extends AppCompatActivity {
                 actionBar.setDisplayOptions(actionBar.getDisplayOptions() | ActionBar.DISPLAY_SHOW_CUSTOM);
                 tvUsername.setText(Common.currentUser.getName());
                 tvState.setText("online");
-                byte[] image = Common.currentUser.getAvatar();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-                ivProfile.setImageBitmap(bitmap);
+//                if (Common.currentUser.getAvatar() != null) {
+//                    byte[] image = Common.currentUser.getAvatar();
+//                    Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+//                    ivProfile.setImageBitmap(bitmap);
+//                } else {
+                Glide.with(this)
+                        .load(Common.currentUser.getAvatar())
+                        .placeholder(R.drawable.default_profile)
+                        .error(R.drawable.default_profile)
+                        .into(ivProfile);
+//                }
             }
         }
     }

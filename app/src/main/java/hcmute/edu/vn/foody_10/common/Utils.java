@@ -48,6 +48,10 @@ public class Utils {
         return byteArrayOutputStream.toByteArray();
     }
 
+    public static Bitmap convertBytesToBitMap(byte[] bytes) {
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
     public static Bitmap convertUriToBitmap(Intent data, ContentResolver contentResolver) {
         Uri uri = data.getData();
         try {

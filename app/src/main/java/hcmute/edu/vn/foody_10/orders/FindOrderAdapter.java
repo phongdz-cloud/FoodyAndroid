@@ -1,5 +1,6 @@
 package hcmute.edu.vn.foody_10.orders;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -14,22 +15,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.common.Utils;
+import hcmute.edu.vn.foody_10.database.IOrderQuery;
+import hcmute.edu.vn.foody_10.database.OrderQuery;
 
 
 public class FindOrderAdapter extends RecyclerView.Adapter<FindOrderAdapter.FindOrderViewHolder> implements Filterable {
     private Context context;
     private List<OrderModel> orderModels;
     private List<OrderModel> orderModelsOld;
+    private IOrderQuery orderQuery;
 
     public FindOrderAdapter(Context context, List<OrderModel> orderModels) {
         this.context = context;
         this.orderModels = orderModels;
         this.orderModelsOld = orderModels;
+        this.orderQuery = OrderQuery.getInstance();
     }
 
     @NonNull
@@ -39,15 +46,29 @@ public class FindOrderAdapter extends RecyclerView.Adapter<FindOrderAdapter.Find
         return new FindOrderViewHolder(view);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onBindViewHolder(@NonNull FindOrderViewHolder holder, int position) {
         OrderModel orderModel = orderModels.get(position);
 
-        holder.ivFood.setImageResource(orderModel.getPhotoFood());
+        Glide.with(context)
+                .load(Utils.convertBytesToBitMap(orderModel.getPhotoFood()))
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .into(holder.ivFood);
+//        holder.ivFood.setImageBitmap(Utils.convertBytesToBitMap(orderModel.getPhotoFood()));
         holder.tvFoodName.setText(orderModel.getFoodName());
-        holder.tvAmount.setText("1");
+        holder.tvAmount.setText(String.valueOf(orderModel.getCount()));
         holder.tvFoodDescription.setText(orderModel.getFoodDescription());
         holder.tvTotalPrice.setText(Utils.formatCurrenCy(orderModel.getPrice()) + "đ");
+
+        holder.ivAddFood.setOnClickListener(view -> {
+            FindOrdersFragment.clickBtnPlusCount(context, orderModel);
+        });
+
+        holder.ivMinusFood.setOnClickListener(view -> {
+            FindOrdersFragment.clickBtnMinusCount(context,orderModel);
+        });
     }
 
     @Override
@@ -98,4 +119,6 @@ public class FindOrderAdapter extends RecyclerView.Adapter<FindOrderAdapter.Find
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
         }
     }
+
+
 }

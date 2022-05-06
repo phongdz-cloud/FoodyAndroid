@@ -33,4 +33,12 @@
     <string name="update_profile_failed">Update profile failed</string>
     <string name="change_picture">Change picture</string>
     <string name="remove_picture">Remove picture</string>
+    <string name="add_to_cart_successfully">Add to cart successfully</string>
+    <string name="add_to_cart_failed">add to cart failed</string>
+    <string name="update_to_cart_successfully">Update to cart successfully</string>
+    <string name="update_to_cart_failed">Update to cart failed</string>
+    <string name="notification">Notification!</string>
+    <string name="remove_order">Do you want to remove the product from the cart?</string>
+    <string name="remove_food_success">successfully removed food from cart</string>
+    <string name="remove_food_failed">remove food failed</string>
 </resources>

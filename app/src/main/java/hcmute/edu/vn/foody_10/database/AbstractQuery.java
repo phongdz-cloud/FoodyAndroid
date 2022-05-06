@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +32,8 @@ public class AbstractQuery<T> implements GenericQuery<T> {
                 statement.bindBlob(index, (byte[]) obj);
             } else if (obj instanceof Double) {
                 statement.bindDouble(index, (Double) obj);
+            } else if (obj instanceof Float) {
+                statement.bindDouble(index, (Float) obj);
             }
         }
         return statement;
@@ -102,7 +103,7 @@ public class AbstractQuery<T> implements GenericQuery<T> {
     }
 
     @Override
-    public Integer delete(String sql, Integer id)   {
+    public Integer delete(String sql, Integer id) {
         try (SQLiteStatement statementDelete = setParameter(sql, id)) {
             return statementDelete.executeUpdateDelete();
         } catch (Exception ex) {

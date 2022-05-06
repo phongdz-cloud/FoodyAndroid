@@ -2,19 +2,26 @@ package hcmute.edu.vn.foody_10.orders;
 
 public class OrderModel {
     private Integer id;
-    private Integer photoFood;
+    private byte[] photoFood;
     private Integer count;
     private String foodName;
     private String foodDescription;
-    private float price;
+    private Float price;
+    private Integer productId;
+    private Integer userId;
 
-    public OrderModel(Integer id, Integer photoFood, Integer count, String foodName, String foodDescription, float price) {
+    public OrderModel() {
+    }
+
+    public OrderModel(Integer id, byte[] photoFood, Integer count, String foodName, String foodDescription, Float price, Integer productId, Integer userId) {
         this.id = id;
         this.photoFood = photoFood;
         this.count = count;
         this.foodName = foodName;
         this.foodDescription = foodDescription;
         this.price = price;
+        this.productId = productId;
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -25,11 +32,11 @@ public class OrderModel {
         this.id = id;
     }
 
-    public Integer getPhotoFood() {
+    public byte[] getPhotoFood() {
         return photoFood;
     }
 
-    public void setPhotoFood(Integer photoFood) {
+    public void setPhotoFood(byte[] photoFood) {
         this.photoFood = photoFood;
     }
 
@@ -57,11 +64,27 @@ public class OrderModel {
         this.foodDescription = foodDescription;
     }
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

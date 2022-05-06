@@ -15,21 +15,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.common.Utils;
+import hcmute.edu.vn.foody_10.database.IOrderQuery;
+import hcmute.edu.vn.foody_10.database.OrderQuery;
+import hcmute.edu.vn.foody_10.orders.FindOrdersFragment;
 
 public class FindFoodAdapter extends RecyclerView.Adapter<FindFoodAdapter.FindFoodViewHolder> implements Filterable {
     private Context context;
     private List<FoodModel> foodModels;
     private List<FoodModel> foodModelsOld;
+    private IOrderQuery orderQuery;
 
     public FindFoodAdapter(Context context, List<FoodModel> foodModels) {
         this.context = context;
         this.foodModels = foodModels;
         this.foodModelsOld = foodModels;
+        this.orderQuery = OrderQuery.getInstance();
     }
 
     @NonNull
@@ -43,13 +50,22 @@ public class FindFoodAdapter extends RecyclerView.Adapter<FindFoodAdapter.FindFo
     public void onBindViewHolder(@NonNull FindFoodViewHolder holder, int position) {
         FoodModel foodModel = foodModels.get(position);
 
-        holder.ivFood.setImageResource(foodModel.getPhotoFood());
+        Glide.with(context)
+                .load(Utils.convertBytesToBitMap(foodModel.getPhotoFood()))
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .into(holder.ivFood);
+//        holder.ivFood.setImageBitmap(Utils.convertBytesToBitMap(foodModel.getPhotoFood()));
         holder.tvFoodName.setText(foodModel.getFoodName());
         holder.tvFoodDescription.setText(foodModel.getFoodDescription());
         holder.tvDiscountPrice.setText(Utils.formatCurrenCy(foodModel.getPrice()) + "đ");
         holder.tvDiscountPrice.setPaintFlags(holder.tvDiscountPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
         holder.tvActualPrice.setText(Utils.formatCurrenCy(foodModel.getPrice()) + "đ");
+
+        holder.ivAddFood.setOnClickListener(click -> {
+            FindOrdersFragment.insertOrUpdateOrder(this.context, foodModel);
+        });
     }
 
     @Override
@@ -97,6 +113,7 @@ public class FindFoodAdapter extends RecyclerView.Adapter<FindFoodAdapter.FindFo
             tvFoodDescription = itemView.findViewById(R.id.tvFoodDescription);
             tvDiscountPrice = itemView.findViewById(R.id.tvDiscountPrice);
             tvActualPrice = itemView.findViewById(R.id.tvActualPrice);
+
         }
     }
 }

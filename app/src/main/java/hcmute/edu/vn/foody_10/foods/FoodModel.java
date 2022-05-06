@@ -2,20 +2,22 @@ package hcmute.edu.vn.foody_10.foods;
 
 public class FoodModel {
     private Integer id;
-    private Integer photoFood;
+    private byte[] photoFood;
     private String foodName;
     private String foodDescription;
-    private float price;
+    private Float price;
+    private Integer categoryId;
 
     public FoodModel() {
     }
 
-    public FoodModel(Integer id, Integer photoFood, String foodName, String foodDescription, float price) {
+    public FoodModel(Integer id, byte[] photoFood, String foodName, String foodDescription, Float price, Integer categoryId) {
         this.id = id;
         this.photoFood = photoFood;
         this.foodName = foodName;
         this.foodDescription = foodDescription;
         this.price = price;
+        this.categoryId = categoryId;
     }
 
     public Integer getId() {
@@ -26,11 +28,11 @@ public class FoodModel {
         this.id = id;
     }
 
-    public int getPhotoFood() {
+    public byte[] getPhotoFood() {
         return photoFood;
     }
 
-    public void setPhotoFood(Integer photoFood) {
+    public void setPhotoFood(byte[] photoFood) {
         this.photoFood = photoFood;
     }
 
@@ -50,11 +52,19 @@ public class FoodModel {
         this.foodDescription = foodDescription;
     }
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }
