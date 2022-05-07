@@ -1,4 +1,4 @@
-package hcmute.edu.vn.foody_10;
+package hcmute.edu.vn.foody_10.activities;
 
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
@@ -27,6 +27,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 
+import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.common.Common;
 import hcmute.edu.vn.foody_10.common.Constants;
 import hcmute.edu.vn.foody_10.common.Utils;

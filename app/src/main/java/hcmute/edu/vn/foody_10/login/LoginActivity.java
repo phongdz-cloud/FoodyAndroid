@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
-import hcmute.edu.vn.foody_10.MainActivity;
+import hcmute.edu.vn.foody_10.activities.MainActivity;
 import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.common.Common;
 import hcmute.edu.vn.foody_10.common.Constants;

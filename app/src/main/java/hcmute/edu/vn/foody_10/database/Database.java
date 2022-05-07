@@ -14,8 +14,6 @@ public class Database extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
-
-
     // truy vấn không trả kết quả: CREATE, INSERT, UPDATE, DELETE...
     public void QueryData(String sql) {
         SQLiteDatabase database = getWritableDatabase();

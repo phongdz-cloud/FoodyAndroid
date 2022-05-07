@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import hcmute.edu.vn.foody_10.activities.MainActivity;
 import hcmute.edu.vn.foody_10.database.Database;
 import hcmute.edu.vn.foody_10.database.IUserQuery;
 import hcmute.edu.vn.foody_10.database.UserQuery;

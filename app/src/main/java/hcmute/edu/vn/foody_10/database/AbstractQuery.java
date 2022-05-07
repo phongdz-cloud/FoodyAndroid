@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-import hcmute.edu.vn.foody_10.MainActivity;
+import hcmute.edu.vn.foody_10.activities.MainActivity;
 import hcmute.edu.vn.foody_10.mapper.RowMapper;
 
 public class AbstractQuery<T> implements GenericQuery<T> {

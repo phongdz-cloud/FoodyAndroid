@@ -1,4 +1,4 @@
-package hcmute.edu.vn.foody_10;
+package hcmute.edu.vn.foody_10.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import hcmute.edu.vn.foody_10.R;
 
 public class SplashActivity extends AppCompatActivity {
     private ImageView ivSplash;

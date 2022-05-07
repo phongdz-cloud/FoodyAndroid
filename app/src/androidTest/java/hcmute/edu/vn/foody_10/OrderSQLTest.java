@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import hcmute.edu.vn.foody_10.activities.MainActivity;
 import hcmute.edu.vn.foody_10.database.Database;
 import hcmute.edu.vn.foody_10.database.FoodQuery;
 import hcmute.edu.vn.foody_10.database.IFoodQuery;
