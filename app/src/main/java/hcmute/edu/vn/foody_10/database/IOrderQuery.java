@@ -2,7 +2,7 @@ package hcmute.edu.vn.foody_10.database;
 
 import java.util.List;
 
-import hcmute.edu.vn.foody_10.orders.OrderModel;
+import hcmute.edu.vn.foody_10.models.OrderModel;
 
 public interface IOrderQuery extends GenericQuery<OrderModel> {
     Long insert(OrderModel orderModel);

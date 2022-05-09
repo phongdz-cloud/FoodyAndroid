@@ -3,7 +3,7 @@ package hcmute.edu.vn.foody_10.database;
 import java.util.List;
 
 import hcmute.edu.vn.foody_10.mapper.OrderMapper;
-import hcmute.edu.vn.foody_10.orders.OrderModel;
+import hcmute.edu.vn.foody_10.models.OrderModel;
 
 public class OrderQuery extends AbstractQuery<OrderModel> implements IOrderQuery {
     private static IOrderQuery instance = null;

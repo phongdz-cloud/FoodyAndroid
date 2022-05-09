@@ -19,6 +19,7 @@ import java.util.List;
 import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.database.FoodQuery;
 import hcmute.edu.vn.foody_10.database.IFoodQuery;
+import hcmute.edu.vn.foody_10.models.FoodModel;
 
 public class FindBeverageFragment extends Fragment {
     private FindFoodAdapter findFoodAdapter;
@@ -59,7 +60,8 @@ public class FindBeverageFragment extends Fragment {
 
     public void dataBeverage() {
         List<FoodModel> results = foodQuery.findFoodByCodeCategory("DU");
-        foodModels.addAll(results);
+        if (results != null)
+            foodModels.addAll(results);
     }
 
 

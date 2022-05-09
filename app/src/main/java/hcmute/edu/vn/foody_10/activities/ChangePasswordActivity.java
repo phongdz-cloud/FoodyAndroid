@@ -1,4 +1,4 @@
-package hcmute.edu.vn.foody_10.password;
+package hcmute.edu.vn.foody_10.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,7 +18,6 @@ import hcmute.edu.vn.foody_10.common.Constants;
 import hcmute.edu.vn.foody_10.common.Utils;
 import hcmute.edu.vn.foody_10.database.IUserQuery;
 import hcmute.edu.vn.foody_10.database.UserQuery;
-import hcmute.edu.vn.foody_10.profile.ProfileActivity;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     private TextInputEditText etPassword, etConfirmPassword;

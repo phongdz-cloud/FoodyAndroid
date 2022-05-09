@@ -15,7 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 
-import hcmute.edu.vn.foody_10.signup.User;
+import hcmute.edu.vn.foody_10.models.User;
 
 public class Utils {
     public static String formatCurrenCy(float price) {
@@ -31,6 +31,8 @@ public class Utils {
         editor.putString("user", json);
         editor.apply();
     }
+
+
 
     public static void getPreferences(SharedPreferences sharedPreferences) {
         if (sharedPreferences != null) {

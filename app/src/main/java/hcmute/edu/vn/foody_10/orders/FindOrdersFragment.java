@@ -24,7 +24,8 @@ import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.common.Common;
 import hcmute.edu.vn.foody_10.database.IOrderQuery;
 import hcmute.edu.vn.foody_10.database.OrderQuery;
-import hcmute.edu.vn.foody_10.foods.FoodModel;
+import hcmute.edu.vn.foody_10.models.FoodModel;
+import hcmute.edu.vn.foody_10.models.OrderModel;
 
 public class FindOrdersFragment extends Fragment {
     private static FindOrderAdapter findOrderAdapter;
@@ -62,7 +63,9 @@ public class FindOrdersFragment extends Fragment {
     }
 
     private void dataFood() {
-        orderModels.addAll(orderQuery.findOrderByUserId(Common.currentUser.getId()));
+        List<OrderModel> orders = orderQuery.findOrderByUserId(Common.currentUser.getId());
+        if (orders != null)
+            orderModels.addAll(orders);
     }
 
     @SuppressLint("NotifyDataSetChanged")

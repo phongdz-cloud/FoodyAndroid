@@ -3,7 +3,7 @@ package hcmute.edu.vn.foody_10.database;
 import java.util.List;
 
 import hcmute.edu.vn.foody_10.mapper.UserMapper;
-import hcmute.edu.vn.foody_10.signup.User;
+import hcmute.edu.vn.foody_10.models.User;
 
 public class UserQuery extends AbstractQuery<User> implements IUserQuery {
     private static UserQuery instance = null;
@@ -17,8 +17,9 @@ public class UserQuery extends AbstractQuery<User> implements IUserQuery {
 
     @Override
     public Long insert(User user) {
-        final String sql = "INSERT INTO user VALUES(null, ?, ?, ?, ?)";
-        return insert(sql, user.getName(), user.getEmail(), user.getPassword(), user.getAvatar());
+        final String sql = "INSERT INTO user VALUES(null, ?, ?, ?, ?, ?, ?, ?)";
+        return insert(sql, user.getName(), user.getEmail(), user.getPassword(), user.getAvatar(),
+                user.getPhone(), user.getAddress(), user.getCreditCard());
     }
 
     @Override
@@ -34,15 +35,28 @@ public class UserQuery extends AbstractQuery<User> implements IUserQuery {
     }
 
     @Override
-    public Integer updatePhotoAndName(User user) {
-        final String sql = "UPDATE user SET avatar = ? , name = ? WHERE id = ?";
-        return update(sql,user.getAvatar(),user.getName(),user.getId());
+    public Integer updatePhotoAndInfo(User user) {
+        final String sql = "UPDATE user SET avatar = ? , name = ? , phone = ? , address = ? WHERE id = ?";
+        return update(sql, user.getAvatar(), user.getName(), user.getPhone(), user.getAddress(), user.getId());
+    }
+
+    @Override
+    public Integer updateCreditCardUser(User user) {
+        final String sql = "UPDATE user SET credit_card = ? WHERE id = ?";
+        return update(sql, user.getCreditCard(), user.getId());
     }
 
     @Override
     public User findById(Integer id) {
         final String sql = "SELECT * FROM user WHERE id = " + id;
         return findById(sql, new UserMapper());
+    }
+
+    @Override
+    public User findByPhone(String phone) {
+        final String sql = "SELECT * FROM user WHERE phone = '" + phone + "'";
+        List results = query(sql, new UserMapper());
+        return results.size() > 0 ? (User) results.get(0) : null;
     }
 
     @Override

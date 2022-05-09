@@ -1,4 +1,4 @@
-package hcmute.edu.vn.foody_10.orders;
+package hcmute.edu.vn.foody_10.models;
 
 public class OrderModel {
     private Integer id;

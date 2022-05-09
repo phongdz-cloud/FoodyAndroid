@@ -7,70 +7,112 @@
     android:layout_weight="1"
     tools:context=".activities.FoodDetailActivity">
 
-    <ImageView
-        android:id="@+id/ivProduct"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/hu_tieu" />
-
     <LinearLayout
-        android:id="@+id/llOrderList"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProduct">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/ivFood"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_margin="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/default_image" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/llOrderList"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivProduct">
 
-            <TextView
-                android:id="@+id/tvFoodName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                tools:text="Food name" />
-
-            <TextView
-                android:id="@+id/tvCount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textColor="@color/colorPrimary"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                tools:text="Amount: 5" />
-
-
-            <TextView
-                android:id="@+id/tvOrderPrice"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorPrimary"
-                tools:text="Price: 25.000đ" />
+                android:orientation="vertical">
 
-            <TextView
+                <TextView
+                    android:id="@+id/tvFoodName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Food name"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <RatingBar
+                    android:id="@+id/rbFood"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:progressTint="@color/colorPrimary"
+                    android:rating="4.5" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                tools:text="Food Description" />
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="20sp"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/tvPriceNoDiscount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="50$"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvPriceDiscount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="40$"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="30sp" />
+
+            </LinearLayout>
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcComment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
+        <TextView
+            android:id="@+id/tvEmptyCommentList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/empty_comment_list"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

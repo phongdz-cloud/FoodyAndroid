@@ -1,4 +1,4 @@
-package hcmute.edu.vn.foody_10.signup;
+package hcmute.edu.vn.foody_10.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -27,14 +27,15 @@ import java.util.regex.Pattern;
 
 import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.common.Constants;
+import hcmute.edu.vn.foody_10.common.CreditCardType;
 import hcmute.edu.vn.foody_10.common.Utils;
 import hcmute.edu.vn.foody_10.database.IUserQuery;
 import hcmute.edu.vn.foody_10.database.UserQuery;
-import hcmute.edu.vn.foody_10.login.LoginActivity;
+import hcmute.edu.vn.foody_10.models.User;
 
 public class SignUpActivity extends AppCompatActivity {
     private ImageView ivProfile;
-    private TextInputEditText etName, etEmail, etPassword, etConfirmPassword;
+    private TextInputEditText etName, etEmail, etPassword, etConfirmPassword, etPhone, etAddress;
     private final IUserQuery userQuery = UserQuery.getInstance();
 
     @Override
@@ -42,6 +43,8 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         binding();
+
+        getSupportActionBar().hide();
     }
 
     @Override
@@ -81,14 +84,21 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void buttonLoginClick(View view) {
-        final String name, email, password, confirmPassword;
+        final String name, phone, address, email, password, confirmPassword;
         name = Objects.requireNonNull(etName.getText()).toString();
         email = Objects.requireNonNull(etEmail.getText()).toString();
+        phone = Objects.requireNonNull(etPhone.getText()).toString();
+        address = Objects.requireNonNull(etAddress.getText()).toString();
         password = Objects.requireNonNull(etPassword.getText()).toString();
         confirmPassword = Objects.requireNonNull(etConfirmPassword.getText()).toString();
-
         if (name.isEmpty()) {
             etName.setError(getString(R.string.enter_name));
+        } else if (phone.isEmpty()) {
+            etPhone.setError(getString(R.string.enter_phone));
+        } else if (userQuery.findByPhone(phone) != null) {
+            etPhone.setError(getString(R.string.phone_number_already_exists));
+        } else if (address.isEmpty()) {
+            etAddress.setError(getString(R.string.enter_address));
         } else if (email.isEmpty()) {
             etEmail.setError(getString(R.string.enter_email));
         } else if (!emailValidator(email)) {
@@ -102,7 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
         } else {
             try {
                 byte[] byteImages = Utils.convertImageViewToBytes(ivProfile);
-                User user = new User(null, name, email, password, byteImages);
+                User user = new User(null, name, email, password, byteImages, phone, address, CreditCardType.EMPTY.name());
                 userQuery.insert(user);
                 Toast.makeText(this, getString(R.string.sign_up_successfully), Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
@@ -119,6 +129,8 @@ public class SignUpActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
+        etPhone = findViewById(R.id.etPhone);
+        etAddress = findViewById(R.id.etAddress);
     }
 
     private boolean emailValidator(final String email) {

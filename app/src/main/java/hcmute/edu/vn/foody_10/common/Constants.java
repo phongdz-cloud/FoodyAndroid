@@ -6,4 +6,9 @@ public class Constants {
     public final static int REQUEST_CODE_USER = 12;
 
     public final static String SHARED_PREFERENCE_USER_STATE = "USER";
+    public final static String SHARED_PREFERENCE_REMEMBER_CHECKED = "REMEMBER_ME";
+    public final static String SHARED_PREFERENCE_REMEMBER_CHECKBOX = "CHECK_BOX";
+    public final static String SHARED_PREFERENCE_REMEMBER_EMAIL = "EMAIL";
+    public final static String SHARED_PREFERENCE_REMEMBER_PASSWORD = "PASSWORD";
+    public final static String DATABASE = "foody_version_01.sqlite";
 }

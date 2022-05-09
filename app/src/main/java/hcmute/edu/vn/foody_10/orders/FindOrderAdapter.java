@@ -2,6 +2,7 @@ package hcmute.edu.vn.foody_10.orders;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,22 +22,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import hcmute.edu.vn.foody_10.R;
+import hcmute.edu.vn.foody_10.activities.FoodDetailActivity;
 import hcmute.edu.vn.foody_10.common.Utils;
-import hcmute.edu.vn.foody_10.database.IOrderQuery;
-import hcmute.edu.vn.foody_10.database.OrderQuery;
+import hcmute.edu.vn.foody_10.models.FoodModel;
+import hcmute.edu.vn.foody_10.models.OrderModel;
 
 
 public class FindOrderAdapter extends RecyclerView.Adapter<FindOrderAdapter.FindOrderViewHolder> implements Filterable {
     private Context context;
     private List<OrderModel> orderModels;
     private List<OrderModel> orderModelsOld;
-    private IOrderQuery orderQuery;
+
 
     public FindOrderAdapter(Context context, List<OrderModel> orderModels) {
         this.context = context;
         this.orderModels = orderModels;
         this.orderModelsOld = orderModels;
-        this.orderQuery = OrderQuery.getInstance();
     }
 
     @NonNull
@@ -67,7 +68,23 @@ public class FindOrderAdapter extends RecyclerView.Adapter<FindOrderAdapter.Find
         });
 
         holder.ivMinusFood.setOnClickListener(view -> {
-            FindOrdersFragment.clickBtnMinusCount(context,orderModel);
+            FindOrdersFragment.clickBtnMinusCount(context, orderModel);
+        });
+
+        holder.ivFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, FoodDetailActivity.class);
+                FoodModel foodModel = new FoodModel();
+                foodModel.setFoodName(orderModel.getFoodName());
+                foodModel.setFoodDescription(orderModel.getFoodDescription());
+                foodModel.setPhotoFood(orderModel.getPhotoFood());
+                foodModel.setPrice(orderModel.getPrice());
+                foodModel.setId(orderModel.getProductId());
+
+                intent.putExtra("food", foodModel);
+                context.startActivity(intent);
+            }
         });
     }
 

@@ -11,10 +11,12 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import hcmute.edu.vn.foody_10.activities.MainActivity;
+import hcmute.edu.vn.foody_10.common.Constants;
+import hcmute.edu.vn.foody_10.common.CreditCardType;
 import hcmute.edu.vn.foody_10.database.Database;
 import hcmute.edu.vn.foody_10.database.IUserQuery;
 import hcmute.edu.vn.foody_10.database.UserQuery;
-import hcmute.edu.vn.foody_10.signup.User;
+import hcmute.edu.vn.foody_10.models.User;
 
 public class UserSQLTest {
 
@@ -30,7 +32,7 @@ public class UserSQLTest {
     @Before
     public void setUp() throws Exception {
         mainActivity = mActivityTestRule.getActivity();
-        database = new Database(mainActivity, "foody_test1.sqlite", null, 1);
+        database = new Database(mainActivity, Constants.DATABASE, null, 1);
         userQuery = UserQuery.getInstance();
     }
 
@@ -53,14 +55,22 @@ public class UserSQLTest {
         final String name = "john";
         final String email = "john@gmail.com";
         final String password = "123456";
-        User user = new User(null, name, email, password, null);
+        final String phone = "0375489103";
+        final String address = "Bà Rịa Vũng Tàu";
+        User user = new User(null, name, email, password, null, phone, address, CreditCardType.EMPTY.name());
         Long insertUser = userQuery.insert(user);
         Assert.assertNotNull(insertUser);
     }
 
     @Test
     public void testFindByIdUser() {
-        User user = userQuery.findById(3);
+        User user = userQuery.findById(1);
+        Assert.assertNotNull(user);
+    }
+
+    @Test
+    public void testFindByPhone() {
+        User user = userQuery.findByPhone("0375489103");
         Assert.assertNotNull(user);
     }
 
@@ -103,9 +113,23 @@ public class UserSQLTest {
         Assert.assertNotNull(user);
         user.setAvatar(null);
         user.setName("john test");
-        Integer integer = userQuery.updatePhotoAndName(user);
+        Integer integer = userQuery.updatePhotoAndInfo(user);
         Assert.assertNotNull(integer);
     }
+
+    @Test
+    public void testCreateTableUser() {
+        database.QueryData("create table if not exists user (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "name varchar(255)," +
+                "email varchar(255) unique, " +
+                "password varchar(20)," +
+                "avatar blob," +
+                "phone varchar(20)," +
+                "address varchar(255)," +
+                "credit_card varchar(50))");
+    }
+
 
     @Test
     public void onCreate() {

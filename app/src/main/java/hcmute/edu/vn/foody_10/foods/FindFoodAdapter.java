@@ -1,6 +1,7 @@
 package hcmute.edu.vn.foody_10.foods;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -21,9 +22,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import hcmute.edu.vn.foody_10.R;
+import hcmute.edu.vn.foody_10.activities.FoodDetailActivity;
 import hcmute.edu.vn.foody_10.common.Utils;
 import hcmute.edu.vn.foody_10.database.IOrderQuery;
 import hcmute.edu.vn.foody_10.database.OrderQuery;
+import hcmute.edu.vn.foody_10.models.FoodModel;
 import hcmute.edu.vn.foody_10.orders.FindOrdersFragment;
 
 public class FindFoodAdapter extends RecyclerView.Adapter<FindFoodAdapter.FindFoodViewHolder> implements Filterable {
@@ -66,7 +69,17 @@ public class FindFoodAdapter extends RecyclerView.Adapter<FindFoodAdapter.FindFo
         holder.ivAddFood.setOnClickListener(click -> {
             FindOrdersFragment.insertOrUpdateOrder(this.context, foodModel);
         });
+
+        holder.ivFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, FoodDetailActivity.class);
+                intent.putExtra("food", foodModel);
+                context.startActivity(intent);
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {

@@ -13,6 +13,7 @@ import org.junit.Test;
 import java.util.List;
 
 import hcmute.edu.vn.foody_10.activities.MainActivity;
+import hcmute.edu.vn.foody_10.common.Constants;
 import hcmute.edu.vn.foody_10.database.Database;
 import hcmute.edu.vn.foody_10.database.FoodQuery;
 import hcmute.edu.vn.foody_10.database.IFoodQuery;
@@ -20,9 +21,9 @@ import hcmute.edu.vn.foody_10.database.IOrderQuery;
 import hcmute.edu.vn.foody_10.database.IUserQuery;
 import hcmute.edu.vn.foody_10.database.OrderQuery;
 import hcmute.edu.vn.foody_10.database.UserQuery;
-import hcmute.edu.vn.foody_10.foods.FoodModel;
-import hcmute.edu.vn.foody_10.orders.OrderModel;
-import hcmute.edu.vn.foody_10.signup.User;
+import hcmute.edu.vn.foody_10.models.FoodModel;
+import hcmute.edu.vn.foody_10.models.OrderModel;
+import hcmute.edu.vn.foody_10.models.User;
 
 public class OrderSQLTest {
     @Rule
@@ -41,7 +42,7 @@ public class OrderSQLTest {
     @Before
     public void setUp() throws Exception {
         mainActivity = mActivityTestRule.getActivity();
-        database = new Database(mainActivity, "foody_test1.sqlite", null, 1);
+        database = new Database(mainActivity, Constants.DATABASE, null, 1);
         orderQuery = OrderQuery.getInstance();
         userQuery = UserQuery.getInstance();
         foodQuery = FoodQuery.getInstance();

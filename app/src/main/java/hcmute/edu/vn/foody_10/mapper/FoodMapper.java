@@ -2,7 +2,7 @@ package hcmute.edu.vn.foody_10.mapper;
 
 import android.database.Cursor;
 
-import hcmute.edu.vn.foody_10.foods.FoodModel;
+import hcmute.edu.vn.foody_10.models.FoodModel;
 
 public class FoodMapper implements RowMapper<FoodModel> {
 
@@ -14,7 +14,8 @@ public class FoodMapper implements RowMapper<FoodModel> {
         foodModel.setFoodName(cs.getString(2));
         foodModel.setFoodDescription(cs.getString(3));
         foodModel.setPrice(cs.getFloat(4));
-        foodModel.setCategoryId(cs.getInt(5));
+        foodModel.setUserId(cs.getInt(5));
+        foodModel.setCategoryId(cs.getInt(6));
         return foodModel;
     }
 }

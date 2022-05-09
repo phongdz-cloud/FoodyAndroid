@@ -7,7 +7,7 @@
     android:layout_marginTop="8dp"
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
-    tools:context=".login.LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -34,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/card_border"
-            android:gravity="center"
             android:orientation="vertical"
             android:padding="12dp">
 
@@ -49,6 +48,7 @@
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_email"
                     android:hint="@string/enter_email" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,26 +63,27 @@
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/enter_password" />
+                    android:drawableStart="@drawable/ic_lock_person"
+                    android:hint="@string/enter_password"
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <CheckBox
+                android:id="@+id/cbRemember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorPrimary"
+                android:text="@string/remember_me"
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:onClick="btnLoginClick"
                 android:text="@string/login" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:padding="6dp"
-                android:text="@string/reset_password"
-                android:textColor="@color/colorPrimary" />
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -103,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/donthave_account"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textView3"
@@ -111,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="tvSignUpClick"
+            android:layout_marginLeft="8dp"
             android:text="@string/signup"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorPrimary" />

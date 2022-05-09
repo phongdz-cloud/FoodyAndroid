@@ -1,4 +1,4 @@
-package hcmute.edu.vn.foody_10.signup;
+package hcmute.edu.vn.foody_10.models;
 
 public class User {
     private Integer id;
@@ -6,19 +6,25 @@ public class User {
     private String email;
     private String password;
     private byte[] avatar;
+    private String phone;
+    private String address;
+    private String creditCard;
 
     public User() {
     }
 
-    public User(Integer id, String name, String email, String password, byte[] avatar) {
+    public User(Integer id, String name, String email, String password, byte[] avatar, String phone, String address, String creditCard) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.avatar = avatar;
+        this.phone = phone;
+        this.address = address;
+        this.creditCard = creditCard;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -56,5 +62,29 @@ public class User {
 
     public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(String creditCard) {
+        this.creditCard = creditCard;
     }
 }

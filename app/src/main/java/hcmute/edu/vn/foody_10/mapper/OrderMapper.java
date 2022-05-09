@@ -2,7 +2,7 @@ package hcmute.edu.vn.foody_10.mapper;
 
 import android.database.Cursor;
 
-import hcmute.edu.vn.foody_10.orders.OrderModel;
+import hcmute.edu.vn.foody_10.models.OrderModel;
 
 public class OrderMapper implements RowMapper<OrderModel> {
     @Override

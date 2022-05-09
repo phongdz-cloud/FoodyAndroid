@@ -3,8 +3,8 @@ package hcmute.edu.vn.foody_10.database;
 import java.util.List;
 
 import hcmute.edu.vn.foody_10.foods.CategoryModel;
-import hcmute.edu.vn.foody_10.foods.FoodModel;
 import hcmute.edu.vn.foody_10.mapper.FoodMapper;
+import hcmute.edu.vn.foody_10.models.FoodModel;
 
 public class FoodQuery extends AbstractQuery<FoodModel> implements IFoodQuery {
 
@@ -21,9 +21,9 @@ public class FoodQuery extends AbstractQuery<FoodModel> implements IFoodQuery {
 
     @Override
     public Long insert(FoodModel foodModel) {
-        final String sql = "INSERT INTO food VALUES(null, ?, ?, ?, ?, ?)";
+        final String sql = "INSERT INTO food VALUES(null, ?, ?, ?, ?, ?, ?)";
         return insert(sql, foodModel.getPhotoFood(), foodModel.getFoodName(), foodModel.getFoodDescription(),
-                foodModel.getPrice(), foodModel.getCategoryId());
+                foodModel.getPrice(), foodModel.getUserId(), foodModel.getCategoryId());
     }
 
     @Override

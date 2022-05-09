@@ -18,11 +18,11 @@ import java.util.List;
 import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.database.FoodQuery;
 import hcmute.edu.vn.foody_10.database.IFoodQuery;
+import hcmute.edu.vn.foody_10.models.FoodModel;
 
 public class FindFoodFragment extends Fragment {
     private FindFoodAdapter findFoodAdapter;
     private List<FoodModel> foodModels;
-    private View progressBar;
     private TextView tvEmptyFriendsList;
     private IFoodQuery foodQuery;
 
@@ -38,7 +38,6 @@ public class FindFoodFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         foodQuery = FoodQuery.getInstance();
         RecyclerView rvFindFoods = view.findViewById(R.id.rvFindFoods);
-        progressBar = view.findViewById(R.id.progressBar);
         tvEmptyFriendsList = view.findViewById(R.id.tvEmptyFoodList);
         rvFindFoods.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -53,8 +52,6 @@ public class FindFoodFragment extends Fragment {
             tvEmptyFriendsList.setVisibility(View.GONE);
         }
         findFoodAdapter.notifyDataSetChanged();
-
-
     }
 
     public FindFoodAdapter getFindFoodAdapter() {
@@ -63,6 +60,7 @@ public class FindFoodFragment extends Fragment {
 
     public void dataFood() {
         List<FoodModel> results = foodQuery.findFoodByCodeCategory("DA");
-        foodModels.addAll(results);
+        if (results != null)
+            foodModels.addAll(results);
     }
 }

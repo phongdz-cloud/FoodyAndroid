@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CreditCardActivity">
+
+    <RadioGroup
+        android:id="@+id/rgCheckCredit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/rbEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:buttonTint="@color/colorPrimary"
+            android:text="@string/no_have_payment"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rbMoMo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:buttonTint="@color/colorPrimary"
+            android:drawableStart="@drawable/logo_momo"
+            android:text="@string/card_momo"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rbZaloPay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:buttonTint="@color/colorPrimary"
+            android:drawableStart="@drawable/logo_zalo"
+            android:text="@string/card_zalo"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rbMasterCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:buttonTint="@color/colorPrimary"
+            android:drawableStart="@drawable/logo_mastercard"
+            android:text="@string/card_master_card"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+    </RadioGroup>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

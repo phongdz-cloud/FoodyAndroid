@@ -1,4 +1,4 @@
-package hcmute.edu.vn.foody_10.profile;
+package hcmute.edu.vn.foody_10.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -30,13 +30,11 @@ import hcmute.edu.vn.foody_10.common.Constants;
 import hcmute.edu.vn.foody_10.common.Utils;
 import hcmute.edu.vn.foody_10.database.IUserQuery;
 import hcmute.edu.vn.foody_10.database.UserQuery;
-import hcmute.edu.vn.foody_10.login.LoginActivity;
-import hcmute.edu.vn.foody_10.password.ChangePasswordActivity;
-import hcmute.edu.vn.foody_10.signup.User;
+import hcmute.edu.vn.foody_10.models.User;
 
 public class ProfileActivity extends AppCompatActivity {
     private ImageView ivProfile;
-    private TextInputEditText etName, etEmail;
+    private TextInputEditText etName, etEmail, etPhone, etAddress;
     private final IUserQuery userQuery = UserQuery.getInstance();
     private Button btnSave;
 
@@ -45,8 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         binding();
-
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ivProfile.setOnClickListener(view -> {
             if (ActivityCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -59,10 +56,12 @@ public class ProfileActivity extends AppCompatActivity {
         btnSave.setOnClickListener(view -> {
             Common.currentUser.setAvatar(Utils.convertImageViewToBytes(ivProfile));
             final String name = Objects.requireNonNull(etName.getText()).toString();
+            final String phone = Objects.requireNonNull(etPhone.getText()).toString();
+            final String address = Objects.requireNonNull(etAddress.getText()).toString();
             try {
                 User user = userQuery.findById(Common.currentUser.getId());
-                if (!user.getName().equals(name)) {
-                    updatePhotoAndName(user);
+                if (!user.getName().equals(name) || !user.getPhone().equals(phone) || !user.getAddress().equals(address)) {
+                    updatePhotoAndInfoUser(user);
                 } else {
                     updateOnlyPhoto(user);
                 }
@@ -87,15 +86,30 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void updatePhotoAndName(User user) {
+    private void updatePhotoAndInfoUser(User user) {
         try {
             if (user != null) {
                 final String name = Objects.requireNonNull(etName.getText()).toString();
+                final String phone = Objects.requireNonNull(etPhone.getText()).toString();
+                final String address = Objects.requireNonNull(etAddress.getText()).toString();
                 user.setAvatar(Common.currentUser.getAvatar());
-                user.setName(name);
-                Integer updateUser = userQuery.updatePhotoAndName(user);
+                if (!user.getName().equals(name)) {
+                    user.setName(name);
+                }
+                if (!user.getPhone().equals(phone)) {
+                    if (userQuery.findByPhone(phone) != null) {
+                        etPhone.setError(getString(R.string.phone_number_already_exists));
+                        return;
+                    } else {
+                        user.setPhone(phone);
+                    }
+                }
+                if (!user.getAddress().equals(address)) {
+                    user.setAddress(address);
+                }
+                Integer updateUser = userQuery.updatePhotoAndInfo(user);
                 if (updateUser > 0) {
-                    Common.currentUser.setName(name);
+                    Common.currentUser = user;
                     Utils.setPreferences(Common.currentUser, getSharedPreferences(Constants.SHARED_PREFERENCE_USER_STATE, MODE_PRIVATE));
                     Toast.makeText(this, R.string.update_profile_successfully, Toast.LENGTH_SHORT).show();
                 } else {
@@ -111,7 +125,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_picture, menu);
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -120,6 +134,15 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.mnuListFood:
+                startActivity(new Intent(ProfileActivity.this, FoodListUserActivity.class));
+                break;
+            case R.id.mnuAddFood:
+                startActivity(new Intent(ProfileActivity.this, FoodActivity.class));
+                break;
+            case R.id.mnuPayments:
+                startActivity(new Intent(ProfileActivity.this, CreditCardActivity.class));
+                break;
             case R.id.mnuChangePic:
                 ivProfile.performClick();
                 break;
@@ -170,6 +193,12 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        dataProfile();
+    }
+
     private void dataProfile() {
         Glide.with(this)
                 .load(Common.currentUser.getAvatar())
@@ -178,6 +207,8 @@ public class ProfileActivity extends AppCompatActivity {
                 .into(ivProfile);
         etName.setText(Common.currentUser.getName());
         etEmail.setText(Common.currentUser.getEmail());
+        etPhone.setText(Common.currentUser.getPhone());
+        etAddress.setText(Common.currentUser.getAddress());
     }
 
     private void binding() {
@@ -185,6 +216,13 @@ public class ProfileActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etName = findViewById(R.id.etName);
         btnSave = findViewById(R.id.btnSave);
+        etPhone = findViewById(R.id.etPhone);
+        etAddress = findViewById(R.id.etAddress);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
+    }
 }

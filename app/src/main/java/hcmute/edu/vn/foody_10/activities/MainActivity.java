@@ -34,9 +34,7 @@ import hcmute.edu.vn.foody_10.common.Utils;
 import hcmute.edu.vn.foody_10.database.Database;
 import hcmute.edu.vn.foody_10.foods.FindBeverageFragment;
 import hcmute.edu.vn.foody_10.foods.FindFoodFragment;
-import hcmute.edu.vn.foody_10.login.LoginActivity;
 import hcmute.edu.vn.foody_10.orders.FindOrdersFragment;
-import hcmute.edu.vn.foody_10.profile.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView ivProfile;
@@ -47,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     public static Database database;
     private ActionBar actionBar;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,20 +53,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         binding();
 
-        database = new Database(this, "foody_test1.sqlite", null, 1);
-        createTableUser();
+        database = new Database(this, Constants.DATABASE, null, 1);
         createTableCategory();
         setViewPager();
     }
 
-    private void createTableUser() {
-        database.QueryData("create table if not exists user (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "name varchar(255)," +
-                "email varchar(255) unique, " +
-                "password varchar(20)," +
-                "avatar blob);");
-    }
 
     private void createTableCategory() {
         database.QueryData("create table if not exists category(" +
@@ -97,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                menu.findItem(R.id.mnuPurchase).setVisible(tab.getPosition() == 2 && Common.currentUser != null);
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -134,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.mnuSearch).getActionView();
@@ -170,22 +162,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.mnuProfile) {
-            if (Common.currentUser != null) {
-                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-            } else {
-                checkLoginUser();
-            }
+        switch (item.getItemId()) {
+            case R.id.mnuProfile:
+                if (Common.currentUser != null) {
+                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                } else {
+                    checkLoginUser();
+                }
+                break;
+            case R.id.mnuPurchase:
+                Toast.makeText(this, "Purchase", Toast.LENGTH_SHORT).show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
         if (!searchView.isIconified()) {
             searchView.setIconified(true);
             return;
@@ -258,11 +254,6 @@ public class MainActivity extends AppCompatActivity {
                 actionBar.setDisplayOptions(actionBar.getDisplayOptions() | ActionBar.DISPLAY_SHOW_CUSTOM);
                 tvUsername.setText(Common.currentUser.getName());
                 tvState.setText("online");
-//                if (Common.currentUser.getAvatar() != null) {
-//                    byte[] image = Common.currentUser.getAvatar();
-//                    Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-//                    ivProfile.setImageBitmap(bitmap);
-//                } else {
                 Glide.with(this)
                         .load(Common.currentUser.getAvatar())
                         .placeholder(R.drawable.default_profile)
