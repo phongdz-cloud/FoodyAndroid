@@ -66,4 +66,8 @@
     <string name="insert_food_successfully">Insert food successfully</string>
     <string name="update_food_successfully">Update food successfully</string>
     <string name="home">Home</string>
+    <string name="comment">COMMENT</string>
+    <string name="add_comment">Add comment</string>
+    <string name="insert_comment_successfully">Insert comment successfully</string>
+    <string name="empty_list_order">You do not have any items in your shopping cart</string>
 </resources>

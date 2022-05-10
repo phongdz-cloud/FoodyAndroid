@@ -1,8 +1,10 @@
 package hcmute.edu.vn.foody_10.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,6 +47,16 @@ public class PurchaseListUserActivity extends AppCompatActivity {
         rcPurchase.setLayoutManager(new LinearLayoutManager(this));
         rcPurchase.setAdapter(adapter);
 
+        btnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (orders.size() > 0) {
+
+                } else {
+                    Toast.makeText(PurchaseListUserActivity.this, R.string.empty_list_order, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
     }

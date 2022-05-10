@@ -19,15 +19,20 @@ import java.util.List;
 
 import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.common.Common;
+import hcmute.edu.vn.foody_10.database.IUserQuery;
+import hcmute.edu.vn.foody_10.database.UserQuery;
 import hcmute.edu.vn.foody_10.models.CommentModel;
+import hcmute.edu.vn.foody_10.models.User;
 
 public class FindCommentsAdapter extends RecyclerView.Adapter<FindCommentsAdapter.FindCommentViewHolder> {
     private Context context;
     private List<CommentModel> commentModels;
+    private IUserQuery userQuery;
 
     public FindCommentsAdapter(Context context, List<CommentModel> commentModels) {
         this.context = context;
         this.commentModels = commentModels;
+        userQuery = UserQuery.getInstance();
     }
 
     @NonNull
@@ -40,23 +45,31 @@ public class FindCommentsAdapter extends RecyclerView.Adapter<FindCommentsAdapte
     @Override
     public void onBindViewHolder(@NonNull FindCommentViewHolder holder, int position) {
         CommentModel commentModel = commentModels.get(position);
+        final User user = userQuery.findById(commentModel.getUserId());
         Glide.with(context)
-                .load(Common.currentUser.getAvatar())
+                .load(user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
                 .into(holder.ivUser);
 
-        holder.tvUsername.setText(Common.currentUser.getName());
+        holder.tvUsername.setText(user.getName());
 
-        SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        SimpleDateFormat sfd = new SimpleDateFormat("hh:mm a");
 
         String dateTime = sfd.format(new Date(commentModel.getDateTime()));
-        String[] splitString = dateTime.split(" ");
-        String messageTime = splitString[1];
-        holder.tvDate.setText(messageTime);
+//        String[] splitString = dateTime.split(" ");
+//        String messageTime = splitString[1];
+        holder.tvDate.setText(dateTime);
         holder.tvMessage.setText(commentModel.getMessage());
-
+        if (Common.currentUser == null) {
+            holder.ibEdit.setVisibility(View.GONE);
+            holder.ibDelete.setVisibility(View.GONE);
+        } else if (!user.getId().equals(Common.currentUser.getId())) {
+            holder.ibEdit.setVisibility(View.GONE);
+            holder.ibDelete.setVisibility(View.GONE);
+        }
     }
+
 
     @Override
     public int getItemCount() {

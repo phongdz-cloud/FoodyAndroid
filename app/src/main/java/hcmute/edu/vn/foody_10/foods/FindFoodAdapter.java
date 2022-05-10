@@ -26,8 +26,6 @@ import hcmute.edu.vn.foody_10.activities.FoodDetailActivity;
 import hcmute.edu.vn.foody_10.activities.MainActivity;
 import hcmute.edu.vn.foody_10.common.Common;
 import hcmute.edu.vn.foody_10.common.Utils;
-import hcmute.edu.vn.foody_10.database.IOrderQuery;
-import hcmute.edu.vn.foody_10.database.OrderQuery;
 import hcmute.edu.vn.foody_10.models.FoodModel;
 import hcmute.edu.vn.foody_10.orders.FindOrdersFragment;
 
@@ -35,13 +33,11 @@ public class FindFoodAdapter extends RecyclerView.Adapter<FindFoodAdapter.FindFo
     private Context context;
     private List<FoodModel> foodModels;
     private List<FoodModel> foodModelsOld;
-    private IOrderQuery orderQuery;
 
     public FindFoodAdapter(Context context, List<FoodModel> foodModels) {
         this.context = context;
         this.foodModels = foodModels;
         this.foodModelsOld = foodModels;
-        this.orderQuery = OrderQuery.getInstance();
     }
 
     @NonNull
