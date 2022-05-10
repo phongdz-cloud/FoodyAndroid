@@ -61,7 +61,7 @@ public class FindOrderAdapter extends RecyclerView.Adapter<FindOrderAdapter.Find
         holder.tvFoodName.setText(orderModel.getFoodName());
         holder.tvAmount.setText(String.valueOf(orderModel.getCount()));
         holder.tvFoodDescription.setText(orderModel.getFoodDescription());
-        holder.tvTotalPrice.setText(Utils.formatCurrenCy(orderModel.getPrice()) + "đ");
+        holder.tvTotalPrice.setText(orderModel.getCount() * orderModel.getPrice() + "$");
 
         holder.ivAddFood.setOnClickListener(view -> {
             FindOrdersFragment.clickBtnPlusCount(context, orderModel);

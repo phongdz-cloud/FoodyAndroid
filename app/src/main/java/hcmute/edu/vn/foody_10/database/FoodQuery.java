@@ -27,6 +27,14 @@ public class FoodQuery extends AbstractQuery<FoodModel> implements IFoodQuery {
     }
 
     @Override
+    public Integer update(FoodModel foodModel) {
+        final String sql = "UPDATE food SET photo_food = ?, food_name = ?, food_description = ?, price = ?, user_id = ?, category_id = ? WHERE id = ?";
+        return update(sql, foodModel.getPhotoFood(), foodModel.getFoodName(),
+                foodModel.getFoodDescription(), foodModel.getPrice(), foodModel.getUserId(),
+                foodModel.getCategoryId(), foodModel.getId());
+    }
+
+    @Override
     public List<FoodModel> findFoodByCodeCategory(String code) {
         CategoryModel categoryQueryByCode = categoryQuery.findByCode(code);
         if (categoryQueryByCode != null) {
@@ -40,5 +48,11 @@ public class FoodQuery extends AbstractQuery<FoodModel> implements IFoodQuery {
     public FoodModel findById(Integer id) {
         final String sql = "SELECT * FROM food WHERE id =" + id;
         return findById(sql, new FoodMapper());
+    }
+
+    @Override
+    public List<FoodModel> findFoodByUser(Integer userId) {
+        final String sql = "SELECT * FROM food where user_id = " + userId;
+        return query(sql, new FoodMapper());
     }
 }

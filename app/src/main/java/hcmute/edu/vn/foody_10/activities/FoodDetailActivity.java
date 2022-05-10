@@ -18,8 +18,8 @@ import java.util.List;
 
 import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.comments.FindCommentsAdapter;
-import hcmute.edu.vn.foody_10.models.FoodModel;
 import hcmute.edu.vn.foody_10.models.CommentModel;
+import hcmute.edu.vn.foody_10.models.FoodModel;
 
 public class FoodDetailActivity extends AppCompatActivity {
     ImageView ivFood;
@@ -62,8 +62,8 @@ public class FoodDetailActivity extends AppCompatActivity {
                     .into(ivFood);
             tvFoodName.setText(foodModel.getFoodName());
             tvDescription.setText(foodModel.getFoodDescription());
-            tvPriceDiscount.setText(String.valueOf(foodModel.getPrice()));
-            tvPriceNoDiscount.setText(String.valueOf(foodModel.getPrice() + foodModel.getPrice() * 0.25));
+            tvPriceDiscount.setText(foodModel.getPrice() + "$");
+            tvPriceNoDiscount.setText((foodModel.getPrice() + foodModel.getPrice() * 0.2) + "$");
             tvPriceNoDiscount.setPaintFlags(tvPriceNoDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             rbFood.setRating(4.5f);
         }

@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                menu.findItem(R.id.mnuPurchase).setVisible(tab.getPosition() == 2 && Common.currentUser != null);
+                menu.findItem(R.id.mnuPurchase).setVisible(Common.currentUser != null);
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkLoginUser() {
+    public void checkLoginUser() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
         dialog.setTitle("Yes");
         dialog.setMessage("You need to login to perform this function?");
@@ -174,7 +174,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.mnuPurchase:
-                Toast.makeText(this, "Purchase", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, PurchaseListUserActivity.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

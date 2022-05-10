@@ -63,9 +63,11 @@ public class FindOrdersFragment extends Fragment {
     }
 
     private void dataFood() {
-        List<OrderModel> orders = orderQuery.findOrderByUserId(Common.currentUser.getId());
-        if (orders != null)
-            orderModels.addAll(orders);
+        if (Common.currentUser != null) {
+            List<OrderModel> orders = orderQuery.findOrderByUserId(Common.currentUser.getId());
+            if (orders != null)
+                orderModels.addAll(orders);
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

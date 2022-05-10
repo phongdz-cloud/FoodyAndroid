@@ -1,12 +1,14 @@
 package hcmute.edu.vn.foody_10.foods;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import hcmute.edu.vn.foody_10.R;
+import hcmute.edu.vn.foody_10.activities.FoodActivity;
 import hcmute.edu.vn.foody_10.models.FoodModel;
 
 public class FoodOfUserAdapter extends RecyclerView.Adapter<FoodOfUserAdapter.FoodOfUserViewHolder> {
@@ -46,20 +49,16 @@ public class FoodOfUserAdapter extends RecyclerView.Adapter<FoodOfUserAdapter.Fo
 
         holder.tvFoodName.setText(foodModel.getFoodName());
         holder.tvFoodDescription.setText(foodModel.getFoodDescription());
-        holder.tvPrice.setText(String.valueOf(foodModel.getPrice()) + "$");
+        holder.tvPrice.setText(foodModel.getPrice() + "$");
 
-        holder.ibEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        holder.ibEdit.setOnClickListener(view -> {
+            Intent intent = new Intent(context, FoodActivity.class);
+            intent.putExtra("food", foodModel);
+            context.startActivity(intent);
         });
 
-        holder.ibDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        holder.ibDelete.setOnClickListener(view -> {
+            Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show();
         });
     }
 

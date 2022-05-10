@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/llOrderListUser"
+        android:id="@+id/llOrderList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -38,6 +38,17 @@
                 tools:text="Food name" />
 
             <TextView
+                android:id="@+id/tvAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorPrimary"
+                tools:text="1" />
+
+            <TextView
                 android:id="@+id/tvFoodDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,15 +57,6 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 tools:text="Food Description" />
 
-            <TextView
-                android:id="@+id/tvPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorPrimary"
-                tools:text="25,000đ" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -62,35 +64,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|right"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:gravity="center"
             android:orientation="vertical">
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center">
-
-            <ImageButton
-                android:id="@+id/ibEdit"
+            <TextView
+                android:id="@+id/tvTotalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:background="@color/colorPrimary"
-                android:src="@drawable/ic_edit" />
-
-            <ImageButton
-                android:id="@+id/ibDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@color/colorPrimary"
-                android:src="@drawable/ic_delete" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                tools:text="20$" />
         </LinearLayout>
 
     </LinearLayout>
@@ -103,7 +87,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llOrderListUser" />
+        app:layout_constraintTop_toBottomOf="@id/llOrderList" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 
 import hcmute.edu.vn.foody_10.R;
 import hcmute.edu.vn.foody_10.activities.FoodDetailActivity;
+import hcmute.edu.vn.foody_10.activities.MainActivity;
+import hcmute.edu.vn.foody_10.common.Common;
 import hcmute.edu.vn.foody_10.common.Utils;
 import hcmute.edu.vn.foody_10.database.IOrderQuery;
 import hcmute.edu.vn.foody_10.database.OrderQuery;
@@ -58,16 +60,20 @@ public class FindFoodAdapter extends RecyclerView.Adapter<FindFoodAdapter.FindFo
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
                 .into(holder.ivFood);
-//        holder.ivFood.setImageBitmap(Utils.convertBytesToBitMap(foodModel.getPhotoFood()));
         holder.tvFoodName.setText(foodModel.getFoodName());
         holder.tvFoodDescription.setText(foodModel.getFoodDescription());
-        holder.tvDiscountPrice.setText(Utils.formatCurrenCy(foodModel.getPrice()) + "đ");
+        holder.tvDiscountPrice.setText(foodModel.getPrice() + foodModel.getPrice() * 0.2 + "$");
         holder.tvDiscountPrice.setPaintFlags(holder.tvDiscountPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-        holder.tvActualPrice.setText(Utils.formatCurrenCy(foodModel.getPrice()) + "đ");
+        holder.tvActualPrice.setText(foodModel.getPrice() + "$");
 
         holder.ivAddFood.setOnClickListener(click -> {
-            FindOrdersFragment.insertOrUpdateOrder(this.context, foodModel);
+            if (Common.currentUser != null) {
+                FindOrdersFragment.insertOrUpdateOrder(this.context, foodModel);
+            } else {
+                MainActivity mainActivity = (MainActivity) context;
+                mainActivity.checkLoginUser();
+            }
         });
 
         holder.ivFood.setOnClickListener(new View.OnClickListener() {

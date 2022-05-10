@@ -62,4 +62,8 @@
     <string name="card_master_card">Master Card</string>
     <string name="no_have_payment">No have payment</string>
     <string name="changed_payment_successfully">Changed payment method successfully</string>
+    <string name="no_choose_product_type">You need to choose a product type</string>
+    <string name="insert_food_successfully">Insert food successfully</string>
+    <string name="update_food_successfully">Update food successfully</string>
+    <string name="home">Home</string>
 </resources>

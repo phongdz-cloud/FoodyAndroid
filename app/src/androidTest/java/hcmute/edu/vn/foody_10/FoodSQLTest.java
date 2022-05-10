@@ -62,13 +62,23 @@ public class FoodSQLTest {
         foodModel.setFoodName("Bánh Tráng");
         foodModel.setFoodDescription("Bánh tráng trà vinh");
         foodModel.setPrice(2.3F);
-        // 1: Đồ ăn
-        // 2: Đồ uống
         foodModel.setCategoryId(1);
         foodModel.setUserId(1);
 
         Long foodInsert = foodQuery.insert(foodModel);
         Assert.assertNotNull(foodInsert);
+    }
+
+    @Test
+    public void testUpdateFood() {
+        Integer foodId = 1;
+        final FoodModel foodModel = foodQuery.findById(foodId);
+        Assert.assertNotNull(foodModel);
+        foodModel.setFoodName("Trà cam phúc long");
+        foodModel.setFoodDescription("Trà cam phúc long HỒ CHÍ MINH");
+
+        final Integer updateFood = foodQuery.update(foodModel);
+        Assert.assertTrue(updateFood > 0);
     }
 
     @Test
@@ -82,6 +92,13 @@ public class FoodSQLTest {
     public void testFindFoodsByCodeCategory() {
         final String code = "DU";
         List<FoodModel> foods = foodQuery.findFoodByCodeCategory(code);
+        Assert.assertTrue(foods.size() > 0);
+    }
+
+    @Test
+    public void testFindFoodByUserId() {
+        final Integer userId = 1;
+        final List<FoodModel> foods = foodQuery.findFoodByUser(userId);
         Assert.assertTrue(foods.size() > 0);
     }
 
