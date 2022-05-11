@@ -51,14 +51,11 @@ public class PurchaseListUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (orders.size() > 0) {
-
                 } else {
                     Toast.makeText(PurchaseListUserActivity.this, R.string.empty_list_order, Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
     }
 
     private void loadDataOrder() {

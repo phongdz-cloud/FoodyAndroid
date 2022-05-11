@@ -93,6 +93,27 @@ public class CommentSQLTest {
     }
 
     @Test
+    public void testDeleteComment(){
+        Integer commentId = 1;
+        final CommentModel commentModel = commentQuery.findById(commentId);
+        Assert.assertNotNull(commentModel);
+        final Integer deleteComment = commentQuery.delete(commentModel.getId());
+        Assert.assertNotNull(deleteComment);
+
+    }
+
+    @Test
+    public void testUpdateComment() {
+        Integer commentId = 1;
+        final CommentModel commentModel = commentQuery.findById(commentId);
+        Assert.assertNotNull(commentModel);
+        commentModel.setMessage("Test update comment");
+        commentModel.setDateTime(System.currentTimeMillis());
+        final Integer updateComment = commentQuery.update(commentModel);
+        Assert.assertNotNull(updateComment);
+    }
+
+    @Test
     public void testFindCommentsByFood() {
         Integer foodId = 1;
         final List<CommentModel> commentByFood = commentQuery.findCommentByFood(foodId);

@@ -1,6 +1,7 @@
 package hcmute.edu.vn.foody_10.comments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import hcmute.edu.vn.foody_10.R;
+import hcmute.edu.vn.foody_10.activities.FoodDetailActivity;
 import hcmute.edu.vn.foody_10.common.Common;
 import hcmute.edu.vn.foody_10.database.IUserQuery;
 import hcmute.edu.vn.foody_10.database.UserQuery;
@@ -57,8 +60,6 @@ public class FindCommentsAdapter extends RecyclerView.Adapter<FindCommentsAdapte
         SimpleDateFormat sfd = new SimpleDateFormat("hh:mm a");
 
         String dateTime = sfd.format(new Date(commentModel.getDateTime()));
-//        String[] splitString = dateTime.split(" ");
-//        String messageTime = splitString[1];
         holder.tvDate.setText(dateTime);
         holder.tvMessage.setText(commentModel.getMessage());
         if (Common.currentUser == null) {
@@ -68,6 +69,35 @@ public class FindCommentsAdapter extends RecyclerView.Adapter<FindCommentsAdapte
             holder.ibEdit.setVisibility(View.GONE);
             holder.ibDelete.setVisibility(View.GONE);
         }
+
+        holder.ibEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((FoodDetailActivity) context).editComment(commentModel);
+            }
+        });
+
+        holder.ibDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setTitle("Are you sure you want to delete this comment ?");
+                alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ((FoodDetailActivity) context).deleteComment(commentModel.getId());
+                    }
+                });
+
+                alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                alertDialogBuilder.show();
+            }
+        });
     }
 
 

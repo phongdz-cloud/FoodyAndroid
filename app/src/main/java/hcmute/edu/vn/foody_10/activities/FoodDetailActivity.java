@@ -30,10 +30,12 @@ import hcmute.edu.vn.foody_10.comments.FindCommentsAdapter;
 import hcmute.edu.vn.foody_10.common.Common;
 import hcmute.edu.vn.foody_10.database.CommentQuery;
 import hcmute.edu.vn.foody_10.database.ICommentQuery;
+import hcmute.edu.vn.foody_10.interfaces.IFoodDetail;
 import hcmute.edu.vn.foody_10.models.CommentModel;
 import hcmute.edu.vn.foody_10.models.FoodModel;
 
-public class FoodDetailActivity extends AppCompatActivity {
+
+public class FoodDetailActivity extends AppCompatActivity implements IFoodDetail {
     private ImageView ivFood;
     private TextView tvFoodName, tvDescription, tvPriceDiscount, tvPriceNoDiscount, tvEmptyCommentList;
     private RatingBar rbFood;
@@ -98,47 +100,65 @@ public class FoodDetailActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    private void insertOrUpdateComment(CommentModel comment) {
+        LayoutInflater li = LayoutInflater.from(FoodDetailActivity.this);
+        View addCommentView = li.inflate(R.layout.add_comment, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(FoodDetailActivity.this);
+        edtAddComment = addCommentView.findViewById(R.id.edtAddComment);
+        if (comment != null) {
+            edtAddComment.setText(comment.getMessage());
+        }
+        alertDialogBuilder.setNegativeButton("Submit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String msg = edtAddComment.getText().toString();
+                if (!msg.isEmpty()) {
+                    if (comment == null) {
+                        CommentModel commentModel = new CommentModel();
+                        commentModel.setMessage(msg);
+                        commentModel.setDateTime(System.currentTimeMillis());
+                        commentModel.setUserId(Common.currentUser.getId());
+                        commentModel.setProductId(foodModel.getId());
+                        final Long insertComment = commentQuery.insert(commentModel);
+                        if (insertComment != null) {
+                            loadComment();
+                            Toast.makeText(FoodDetailActivity.this, getString(R.string.insert_comment_successfully), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(FoodDetailActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        comment.setMessage(msg);
+                        comment.setDateTime(System.currentTimeMillis());
+                        final Integer updateComment = commentQuery.update(comment);
+                        if (updateComment != null) {
+                            loadComment();
+                            Toast.makeText(FoodDetailActivity.this, getString(R.string.update_comment_successfully), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(FoodDetailActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                } else {
+                    edtAddComment.setError(getString(R.string.enter_message));
+                }
+            }
+        });
+
+        alertDialogBuilder.setView(addCommentView);
+        alertDialogBuilder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        alertDialogBuilder.show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.mnuAddComment) {
             if (Common.currentUser != null) {
-                LayoutInflater li = LayoutInflater.from(FoodDetailActivity.this);
-                View addCommentView = li.inflate(R.layout.add_comment, null);
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(FoodDetailActivity.this);
-
-
-                alertDialogBuilder.setNegativeButton("Submit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        edtAddComment = addCommentView.findViewById(R.id.edtAddComment);
-                        String msg = edtAddComment.getText().toString();
-                        if (!msg.isEmpty()) {
-                            CommentModel commentModel = new CommentModel();
-                            commentModel.setMessage(msg);
-                            commentModel.setDateTime(System.currentTimeMillis());
-                            commentModel.setUserId(Common.currentUser.getId());
-                            commentModel.setProductId(foodModel.getId());
-                            final Long insertComment = commentQuery.insert(commentModel);
-                            if (insertComment != null) {
-                                loadComment();
-                                Toast.makeText(FoodDetailActivity.this, getString(R.string.insert_comment_successfully), Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(FoodDetailActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
-
-                alertDialogBuilder.setView(addCommentView);
-                alertDialogBuilder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-
-
-                alertDialogBuilder.show();
+                insertOrUpdateComment(null);
             } else {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(FoodDetailActivity.this);
                 dialog.setTitle("Yes");
@@ -179,5 +199,21 @@ public class FoodDetailActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void editComment(CommentModel commentModel) {
+        insertOrUpdateComment(commentModel);
+    }
+
+    @Override
+    public void deleteComment(Integer commentId) {
+        final Integer deleteComment = commentQuery.delete(commentId);
+        if (deleteComment != null) {
+            loadComment();
+            Toast.makeText(this, getString(R.string.delete_comment_successfully), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+        }
     }
 }

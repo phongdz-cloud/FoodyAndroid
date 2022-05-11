@@ -9,6 +9,9 @@ public interface ICommentQuery extends GenericQuery<CommentModel> {
 
     Integer update(CommentModel commentModel);
 
+    Integer delete(Integer id);
+
+
     CommentModel findById(Integer id);
 
     List<CommentModel> findCommentByFood(Integer foodId);

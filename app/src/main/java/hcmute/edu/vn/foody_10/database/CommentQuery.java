@@ -24,7 +24,14 @@ public class CommentQuery extends AbstractQuery<CommentModel> implements ICommen
 
     @Override
     public Integer update(CommentModel commentModel) {
-        return null;
+        final String sql = "UPDATE comment SET message = ?, date_time = ? WHERE id = ?";
+        return update(sql, commentModel.getMessage(), commentModel.getDateTime(), commentModel.getId());
+    }
+
+    @Override
+    public Integer delete(Integer id) {
+        final String sql = "DELETE FROM comment WHERE id = ?";
+        return delete(sql,id);
     }
 
     @Override

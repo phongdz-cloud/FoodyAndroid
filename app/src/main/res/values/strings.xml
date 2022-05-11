@@ -70,4 +70,7 @@
     <string name="add_comment">Add comment</string>
     <string name="insert_comment_successfully">Insert comment successfully</string>
     <string name="empty_list_order">You do not have any items in your shopping cart</string>
+    <string name="enter_message">Enter message</string>
+    <string name="update_comment_successfully">Update comment successfully</string>
+    <string name="delete_comment_successfully">Delete comment successfully</string>
 </resources>
