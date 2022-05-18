@@ -10,4 +10,6 @@
     <color name="colorPrimary">#FF4800</color>
     <color name="red">#e91e63</color>
     <color name="gray">#A2A2A2</color>
+    <color name="green">#00FF0A</color>
+    <color name="darkgray">#a9a9a9</color>
 </resources>

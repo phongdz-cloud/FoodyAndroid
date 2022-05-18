@@ -4,12 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ProfileActivity">
-
-    <include
-        android:id="@+id/progressBar"
-        layout="@layout/custom_progressbar"
-        android:visibility="gone" />
+    tools:context=".Activity.ProfileActivity">
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/ivProfile"

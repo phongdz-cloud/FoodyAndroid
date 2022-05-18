@@ -10,12 +10,12 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import hcmute.edu.vn.foody_10.activities.MainActivity;
-import hcmute.edu.vn.foody_10.common.Constants;
-import hcmute.edu.vn.foody_10.database.CategoryQuery;
-import hcmute.edu.vn.foody_10.database.Database;
-import hcmute.edu.vn.foody_10.database.ICategoryQuery;
-import hcmute.edu.vn.foody_10.foods.CategoryModel;
+import hcmute.edu.vn.foody_10.Activity.MainActivity;
+import hcmute.edu.vn.foody_10.Common.Constants;
+import hcmute.edu.vn.foody_10.Database.CategoryQuery;
+import hcmute.edu.vn.foody_10.Database.Database;
+import hcmute.edu.vn.foody_10.Database.ICategoryQuery;
+import hcmute.edu.vn.foody_10.Model.CategoryModel;
 
 public class CategorySQLTest {
     @Rule
@@ -50,7 +50,7 @@ public class CategorySQLTest {
 
     @Test
     public void testCreateCategory() {
-        CategoryModel categoryModel = new CategoryModel(null, "Beverage", "DU");
+        CategoryModel categoryModel = new CategoryModel(null, "Đồ Uống", "DU");
         Long insert = categoryQuery.insert(categoryModel);
 
         Assert.assertNotNull(insert);
@@ -77,8 +77,5 @@ public class CategorySQLTest {
                 "name varchar(50), " +
                 "code varchar(20)" +
                 ")");
-
-//        CategoryModel testDb = categoryQuery.findByCode("test");
-//        Assert.assertNull(testDb);
     }
 }

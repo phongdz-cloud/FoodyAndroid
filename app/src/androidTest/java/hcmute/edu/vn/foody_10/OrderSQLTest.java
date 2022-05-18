@@ -12,18 +12,18 @@ import org.junit.Test;
 
 import java.util.List;
 
-import hcmute.edu.vn.foody_10.activities.MainActivity;
-import hcmute.edu.vn.foody_10.common.Constants;
-import hcmute.edu.vn.foody_10.database.Database;
-import hcmute.edu.vn.foody_10.database.FoodQuery;
-import hcmute.edu.vn.foody_10.database.IFoodQuery;
-import hcmute.edu.vn.foody_10.database.IOrderQuery;
-import hcmute.edu.vn.foody_10.database.IUserQuery;
-import hcmute.edu.vn.foody_10.database.OrderQuery;
-import hcmute.edu.vn.foody_10.database.UserQuery;
-import hcmute.edu.vn.foody_10.models.FoodModel;
-import hcmute.edu.vn.foody_10.models.OrderModel;
-import hcmute.edu.vn.foody_10.models.User;
+import hcmute.edu.vn.foody_10.Activity.MainActivity;
+import hcmute.edu.vn.foody_10.Common.Constants;
+import hcmute.edu.vn.foody_10.Database.Database;
+import hcmute.edu.vn.foody_10.Database.FoodQuery;
+import hcmute.edu.vn.foody_10.Database.IFoodQuery;
+import hcmute.edu.vn.foody_10.Database.IOrderQuery;
+import hcmute.edu.vn.foody_10.Database.IUserQuery;
+import hcmute.edu.vn.foody_10.Database.OrderQuery;
+import hcmute.edu.vn.foody_10.Database.UserQuery;
+import hcmute.edu.vn.foody_10.Model.FoodModel;
+import hcmute.edu.vn.foody_10.Model.OrderModel;
+import hcmute.edu.vn.foody_10.Model.UserModel;
 
 public class OrderSQLTest {
     @Rule
@@ -72,8 +72,8 @@ public class OrderSQLTest {
 
         final FoodModel foodQueryById = foodQuery.findById(foodId);
         Assert.assertNotNull(foodQueryById);
-        final User user = userQuery.findById(userId);
-        Assert.assertNotNull(user);
+        final UserModel userModel = userQuery.findById(userId);
+        Assert.assertNotNull(userModel);
         OrderModel orderModel = new OrderModel();
         orderModel.setPhotoFood(foodQueryById.getPhotoFood());
         orderModel.setCount(1);
@@ -81,7 +81,7 @@ public class OrderSQLTest {
         orderModel.setFoodDescription(foodQueryById.getFoodDescription());
         orderModel.setPrice(foodQueryById.getPrice());
         orderModel.setProductId(foodQueryById.getCategoryId());
-        orderModel.setUserId(user.getId());
+        orderModel.setUserId(userModel.getId());
         final Long orderInsert = orderQuery.insert(orderModel);
         Assert.assertNotNull(orderInsert);
     }

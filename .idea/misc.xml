@@ -6,39 +6,54 @@
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1735" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/drawable/card_border.xml" value="0.1735" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/drawable/ic_add.xml" value="0.122" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/drawable/ic_beverage.xml" value="0.1595" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/drawable/ic_delete.xml" value="0.1595" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/drawable/ic_fastfood.xml" value="0.1455" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/drawable/ic_profile.xml" value="0.122" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/drawable/ic_restaurant_menu.xml" value="0.1385" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/drawable/image_border.xml" value="0.2675" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_change_password.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_credit_card.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_detail_restaurant.xml" value="0.10526315789473684" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_food.xml" value="0.1" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_food_detail.xml" value="0.264" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_food_list_user.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_login.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_main.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_notification.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_profile.xml" value="0.264" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_purchase_list_user.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_restaurant.xml" value="0.21283783783783783" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_signup.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/activity_splash.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/add_comment.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/comment_list_layout.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/custom_action_mode.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/custom_progressbar.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/dialog_receipt_list.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/food_list_layout.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/food_restaurant_list.xml" value="0.2" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/food_user_list_layout.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/fragment_beverage.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/fragment_find_beverage.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/fragment_find_comment.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/fragment_find_food.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/fragment_find_order.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/fragment_find_restaurant.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/fragment_food.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/fragment_order.xml" value="0.27447916666666666" />
-        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/order_list_layout.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/notification_list_layout.xml" value="0.2" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/order_list_layout.xml" value="0.2" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/payment_list_layout.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/purchase_layout.xml" value="0.27447916666666666" />
-        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/purchase_user_list.xml" value="0.1" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/purchase_user_list.xml" value="0.264" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/receipt_list_layout.xml" value="0.22407407407407406" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/restaurant_list_layout.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/tab_beverage.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/tab_food.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/tab_order.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/layout/tab_restaurant.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/menu/menu_bnv.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/menu/menu_detail.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/menu/menu_login.xml" value="0.1" />
         <entry key="..\:/Users/19110/Desktop/foody/app/src/main/res/menu/menu_main.xml" value="0.27447916666666666" />

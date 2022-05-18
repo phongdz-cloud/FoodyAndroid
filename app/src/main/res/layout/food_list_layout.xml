@@ -32,9 +32,9 @@
                 android:id="@+id/tvFoodName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                tools:text="Food name" />
+                tools:text="Bánh Biscotti Dark " />
             <RatingBar
                 android:id="@+id/ratingBar"
                 style="@style/Widget.AppCompat.RatingBar.Small"
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@color/colorPrimary"
-                android:src="@drawable/ic_cart" />
+                android:src="@drawable/ic_add" />
 
         </LinearLayout>
 

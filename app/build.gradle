@@ -44,5 +44,10 @@ dependencies {
     //GSON...
     implementation 'com.google.code.gson:gson:2.8.8'
 
+    implementation 'com.squareup.picasso:picasso:2.8'
+
+// https://mvnrepository.com/artifact/com.github.siyamed/android-shape-imageview
+    implementation 'com.github.siyamed:android-shape-imageview:0.9.3'
+
 
 }

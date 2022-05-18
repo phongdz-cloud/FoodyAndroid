@@ -13,13 +13,13 @@ import org.junit.Test;
 
 import java.util.List;
 
-import hcmute.edu.vn.foody_10.activities.MainActivity;
-import hcmute.edu.vn.foody_10.common.Constants;
-import hcmute.edu.vn.foody_10.common.Utils;
-import hcmute.edu.vn.foody_10.database.Database;
-import hcmute.edu.vn.foody_10.database.FoodQuery;
-import hcmute.edu.vn.foody_10.database.IFoodQuery;
-import hcmute.edu.vn.foody_10.models.FoodModel;
+import hcmute.edu.vn.foody_10.Activity.MainActivity;
+import hcmute.edu.vn.foody_10.Common.Constants;
+import hcmute.edu.vn.foody_10.Common.Utils;
+import hcmute.edu.vn.foody_10.Database.Database;
+import hcmute.edu.vn.foody_10.Database.FoodQuery;
+import hcmute.edu.vn.foody_10.Database.IFoodQuery;
+import hcmute.edu.vn.foody_10.Model.FoodModel;
 
 public class FoodSQLTest {
     @Rule
@@ -55,13 +55,13 @@ public class FoodSQLTest {
     @Test
     public void testCreateFood() {
         ImageView imageView = new ImageView(mainActivity);
-        imageView.setImageResource(R.drawable.banh_trang);
+        imageView.setImageResource(R.drawable.chan_ga_thanh_map);
 
         FoodModel foodModel = new FoodModel();
         foodModel.setPhotoFood(Utils.convertImageViewToBytes(imageView));
-        foodModel.setFoodName("Bánh Tráng");
-        foodModel.setFoodDescription("Bánh tráng trà vinh");
-        foodModel.setPrice(2.3F);
+        foodModel.setFoodName("Chân gà rút xương ngâm sả tắc nhỏ");
+        foodModel.setFoodDescription("Hộp ~250gr chân gà rút xương kèm nước chấm siêu ngon");
+        foodModel.setPrice(210000F);
         foodModel.setCategoryId(1);
         foodModel.setUserId(1);
 
@@ -80,6 +80,8 @@ public class FoodSQLTest {
         final Integer updateFood = foodQuery.update(foodModel);
         Assert.assertTrue(updateFood > 0);
     }
+
+
 
     @Test
     public void testFindByIdFood() {
@@ -101,6 +103,7 @@ public class FoodSQLTest {
         final List<FoodModel> foods = foodQuery.findFoodByUser(userId);
         Assert.assertTrue(foods.size() > 0);
     }
+
 
 
     @Test

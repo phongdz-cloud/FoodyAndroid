@@ -12,18 +12,18 @@ import org.junit.Test;
 
 import java.util.List;
 
-import hcmute.edu.vn.foody_10.activities.MainActivity;
-import hcmute.edu.vn.foody_10.common.Constants;
-import hcmute.edu.vn.foody_10.database.CommentQuery;
-import hcmute.edu.vn.foody_10.database.Database;
-import hcmute.edu.vn.foody_10.database.FoodQuery;
-import hcmute.edu.vn.foody_10.database.ICommentQuery;
-import hcmute.edu.vn.foody_10.database.IFoodQuery;
-import hcmute.edu.vn.foody_10.database.IUserQuery;
-import hcmute.edu.vn.foody_10.database.UserQuery;
-import hcmute.edu.vn.foody_10.models.CommentModel;
-import hcmute.edu.vn.foody_10.models.FoodModel;
-import hcmute.edu.vn.foody_10.models.User;
+import hcmute.edu.vn.foody_10.Activity.MainActivity;
+import hcmute.edu.vn.foody_10.Common.Constants;
+import hcmute.edu.vn.foody_10.Database.CommentQuery;
+import hcmute.edu.vn.foody_10.Database.Database;
+import hcmute.edu.vn.foody_10.Database.FoodQuery;
+import hcmute.edu.vn.foody_10.Database.ICommentQuery;
+import hcmute.edu.vn.foody_10.Database.IFoodQuery;
+import hcmute.edu.vn.foody_10.Database.IUserQuery;
+import hcmute.edu.vn.foody_10.Database.UserQuery;
+import hcmute.edu.vn.foody_10.Model.CommentModel;
+import hcmute.edu.vn.foody_10.Model.FoodModel;
+import hcmute.edu.vn.foody_10.Model.UserModel;
 
 public class CommentSQLTest {
     @Rule
@@ -71,12 +71,12 @@ public class CommentSQLTest {
         String msgTest = "Món này ngon lắm";
         Long dateTime = System.currentTimeMillis();
 
-        final User user = userQuery.findById(userId);
-        Assert.assertNotNull(user);
+        final UserModel userModel = userQuery.findById(userId);
+        Assert.assertNotNull(userModel);
         final FoodModel foodQueryById = foodQuery.findById(foodId);
         Assert.assertNotNull(foodQueryById);
 
-        CommentModel commentModel = new CommentModel(null, msgTest, dateTime, user.getId(),
+        CommentModel commentModel = new CommentModel(null, msgTest, dateTime, userModel.getId(),
                 foodQueryById.getId());
 
         final Long commentInsert = commentQuery.insert(commentModel);

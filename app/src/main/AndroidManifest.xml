@@ -13,34 +13,43 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Foody">
         <activity
-            android:name=".activities.PurchaseListUserActivity"
+            android:name=".Activity.DetailRestaurantActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.FoodListUserActivity"
+            android:name=".Activity.RestaurantActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.CreditCardActivity"
+            android:name=".Activity.NotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.FoodActivity"
+            android:name=".Activity.PurchaseListUserActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.FoodDetailActivity"
+            android:name=".Activity.FoodListUserActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ChangePasswordActivity"
+            android:name=".Activity.CreditCardActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ProfileActivity"
+            android:name=".Activity.FoodActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".Activity.FoodDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".Activity.ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".Activity.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +58,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".Activity.MainActivity"
             android:exported="false" />
     </application>
 
