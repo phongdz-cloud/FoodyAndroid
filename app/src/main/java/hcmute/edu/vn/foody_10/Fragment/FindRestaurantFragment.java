@@ -52,6 +52,7 @@ public class FindRestaurantFragment extends Fragment {
     }
 
     private void dataRestaurant() {
+        restaurants.clear();
         final List<RestaurantModel> res = restaurantQuery.findAll();
         if (res != null) {
             restaurants.addAll(res);

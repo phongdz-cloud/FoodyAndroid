@@ -15,12 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 import hcmute.edu.vn.foody_10.Activity.DetailRestaurantActivity;
+import hcmute.edu.vn.foody_10.Common.Utils;
 import hcmute.edu.vn.foody_10.Model.RestaurantModel;
 import hcmute.edu.vn.foody_10.R;
 
@@ -45,9 +44,8 @@ public class FindRestaurantAdapter extends RecyclerView.Adapter<FindRestaurantAd
     @Override
     public void onBindViewHolder(@NonNull FindRestaurantViewHolder holder, int position) {
         final RestaurantModel restaurantModel = restaurants.get(position);
-        Picasso.get()
-                .load(restaurantModel.getRestaurantPhoto())
-                .into(holder.ivRestaurant);
+
+        holder.ivRestaurant.setImageBitmap(Utils.convertBytesToBitMap(restaurantModel.getRestaurantPhoto()));
         String foodName = restaurantModel.getName();
         if (foodName.length() > 20) {
             foodName = foodName.substring(0, 20);

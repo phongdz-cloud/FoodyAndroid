@@ -1,6 +1,7 @@
 package hcmute.edu.vn.foody_10;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.test.rule.ActivityTestRule;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 import hcmute.edu.vn.foody_10.Activity.MainActivity;
 import hcmute.edu.vn.foody_10.Common.Constants;
+import hcmute.edu.vn.foody_10.Common.Utils;
 import hcmute.edu.vn.foody_10.Database.Database;
 import hcmute.edu.vn.foody_10.Database.IRestaurantQuery;
 import hcmute.edu.vn.foody_10.Database.IUserQuery;
@@ -65,13 +67,15 @@ public class RestaurantSQLTest {
 
     @Test
     public void testCreateRestaurant() {
-        // 1: Admin (Thành Mập) , 2: Hoai Phong (Võ Văn Tần)
+        // 1: Admin (Thành Mập) , 2: Hoai Phong (Võ Văn Tần), 3: Chi Thiện
         final UserModel userModel = userQuery.findById(2);
         Assert.assertNotNull(userModel);
 
+        ImageView imageView = new ImageView(mainActivity);
+        imageView.setImageResource(R.drawable.chan_ga_thanh_map);
 //        RestaurantModel restaurantModel = new RestaurantModel();
 //        restaurantModel.setUserId(userModel.getId());
-//        restaurantModel.setRestaurantPhoto(R.drawable.chan_ga_thanh_map);
+//        restaurantModel.setRestaurantPhoto(Utils.convertImageViewToBytes(imageView));
 //        restaurantModel.setName("Thành Mập - Chân Gà Rút Xương\nNgâm Sả Tắc - Bạch Đằng - Shop Online");
 //        restaurantModel.setDescription("Shop Online - Món Việt");
 //        restaurantModel.setDate_time("08:00 - 23:00");
@@ -79,15 +83,22 @@ public class RestaurantSQLTest {
 
         RestaurantModel restaurantModel = new RestaurantModel();
         restaurantModel.setUserId(userModel.getId());
-        restaurantModel.setRestaurantPhoto(R.drawable.dingtea);
+        restaurantModel.setRestaurantPhoto(Utils.convertImageViewToBytes(imageView));
         restaurantModel.setName("Ding Tea - Võ Văn Tần");
         restaurantModel.setDescription("CAFÉ/DESSERT");
         restaurantModel.setDate_time("08:30 - 22:30");
         restaurantModel.setRangePrice("29,000 - 65,000");
 
+//        RestaurantModel restaurantModel = new RestaurantModel();
+//        restaurantModel.setUserId(userModel.getId());
+//        restaurantModel.setRestaurantPhoto(Utils.convertImageViewToBytes(imageView));
+//        restaurantModel.setName("Chí Thiện - Cơm phần");
+//        restaurantModel.setDescription("Quán ăn");
+//        restaurantModel.setDate_time("08:00 - 16:20");
+//        restaurantModel.setRangePrice("25,000 - 35,000");
+
         final Long insertRestaurant = restaurantQuery.insert(restaurantModel);
         Assert.assertNotNull(insertRestaurant);
-
     }
 
 
@@ -96,7 +107,7 @@ public class RestaurantSQLTest {
         database.QueryData("create table if not exists restaurant(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "user_id INTEGER, " +
-                "restaurant_photo INTEGER, " +
+                "restaurant_photo blob, " +
                 "name varchar(255), " +
                 "description varchar(255), " +
                 "date_time varchar(255), " +

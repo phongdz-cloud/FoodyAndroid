@@ -10,5 +10,5 @@ public class Constants {
     public final static String SHARED_PREFERENCE_REMEMBER_CHECKBOX = "CHECK_BOX";
     public final static String SHARED_PREFERENCE_REMEMBER_EMAIL = "EMAIL";
     public final static String SHARED_PREFERENCE_REMEMBER_PASSWORD = "PASSWORD";
-    public final static String DATABASE = "foody_version_02.sqlite";
+    public final static String DATABASE = "foody_version_03.sqlite";
 }

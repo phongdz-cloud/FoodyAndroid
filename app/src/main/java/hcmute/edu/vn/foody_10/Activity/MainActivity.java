@@ -56,9 +56,7 @@ public class MainActivity extends AppCompatActivity {
         binding();
 
         database = new Database(this, Constants.DATABASE, null, 1);
-        createTableCategory();
         setViewPager();
-
 
         bnvMain.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -95,16 +93,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-    private void createTableCategory() {
-        database.QueryData("create table if not exists category(" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "name varchar(255), " +
-                "code varchar(255)" +
-                ")");
-    }
-
 
     private void binding() {
         tabLayout = findViewById(R.id.tabMain);

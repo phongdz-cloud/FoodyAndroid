@@ -8,22 +8,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import hcmute.edu.vn.foody_10.R;
+import hcmute.edu.vn.foody_10.Adapter.FindFoodAdapter;
+import hcmute.edu.vn.foody_10.Common.Utils;
 import hcmute.edu.vn.foody_10.Database.FoodQuery;
 import hcmute.edu.vn.foody_10.Database.IFoodQuery;
 import hcmute.edu.vn.foody_10.Database.IRestaurantQuery;
 import hcmute.edu.vn.foody_10.Database.IUserQuery;
 import hcmute.edu.vn.foody_10.Database.RestaurantQuery;
 import hcmute.edu.vn.foody_10.Database.UserQuery;
-import hcmute.edu.vn.foody_10.Adapter.FindFoodAdapter;
 import hcmute.edu.vn.foody_10.Model.FoodModel;
 import hcmute.edu.vn.foody_10.Model.RestaurantModel;
 import hcmute.edu.vn.foody_10.Model.UserModel;
+import hcmute.edu.vn.foody_10.R;
 
 public class DetailRestaurantActivity extends AppCompatActivity {
     private ImageView ivRestaurant;
@@ -54,9 +53,7 @@ public class DetailRestaurantActivity extends AppCompatActivity {
                 restaurantModel = restaurantQuery.findRestaurantByUserId(user.getId());
             }
             if (user != null) {
-                Picasso.get()
-                        .load(restaurantModel.getRestaurantPhoto())
-                        .into(ivRestaurant);
+                ivRestaurant.setImageBitmap(Utils.convertBytesToBitMap(restaurantModel.getRestaurantPhoto()));
                 tvRestaurantName.setText(restaurantModel.getName());
                 tvDateTime.setText(restaurantModel.getDate_time());
 

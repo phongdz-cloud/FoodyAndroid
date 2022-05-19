@@ -54,4 +54,7 @@ public class SplashActivity extends AppCompatActivity {
         ivSplash.startAnimation(animation);
         tvSplash.startAnimation(animation);
     }
+
+
+
 }

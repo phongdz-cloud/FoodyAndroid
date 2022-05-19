@@ -10,7 +10,7 @@ public class RestaurantMapper implements RowMapper<RestaurantModel> {
         RestaurantModel restaurantModel = new RestaurantModel();
         restaurantModel.setId(cs.getInt(0));
         restaurantModel.setUserId(cs.getInt(1));
-        restaurantModel.setRestaurantPhoto(cs.getInt(2));
+        restaurantModel.setRestaurantPhoto(cs.getBlob(2));
         restaurantModel.setName(cs.getString(3));
         restaurantModel.setDescription(cs.getString(4));
         restaurantModel.setDate_time(cs.getString(5));

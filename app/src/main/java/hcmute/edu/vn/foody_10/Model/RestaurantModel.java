@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class RestaurantModel implements Serializable {
     private Integer id;
     private Integer userId;
-    private Integer restaurantPhoto;
+    private byte[] restaurantPhoto;
     private String name;
     private String description;
     private String date_time;
@@ -14,7 +14,7 @@ public class RestaurantModel implements Serializable {
     public RestaurantModel() {
     }
 
-    public RestaurantModel(Integer id, Integer userId, Integer restaurantPhoto, String name, String description, String date_time, String rangePrice) {
+    public RestaurantModel(Integer id, Integer userId, byte[] restaurantPhoto, String name, String description, String date_time, String rangePrice) {
         this.id = id;
         this.userId = userId;
         this.restaurantPhoto = restaurantPhoto;
@@ -40,11 +40,11 @@ public class RestaurantModel implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getRestaurantPhoto() {
+    public byte[] getRestaurantPhoto() {
         return restaurantPhoto;
     }
 
-    public void setRestaurantPhoto(Integer restaurantPhoto) {
+    public void setRestaurantPhoto(byte[] restaurantPhoto) {
         this.restaurantPhoto = restaurantPhoto;
     }
 
