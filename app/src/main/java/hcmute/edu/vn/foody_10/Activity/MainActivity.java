@@ -31,10 +31,19 @@ import com.google.android.material.tabs.TabLayout;
 import hcmute.edu.vn.foody_10.Common.Common;
 import hcmute.edu.vn.foody_10.Common.Constants;
 import hcmute.edu.vn.foody_10.Common.Utils;
+import hcmute.edu.vn.foody_10.Database.CategoryQuery;
 import hcmute.edu.vn.foody_10.Database.Database;
+import hcmute.edu.vn.foody_10.Database.ICategoryQuery;
+import hcmute.edu.vn.foody_10.Database.IRestaurantQuery;
+import hcmute.edu.vn.foody_10.Database.IUserQuery;
+import hcmute.edu.vn.foody_10.Database.RestaurantQuery;
+import hcmute.edu.vn.foody_10.Database.UserQuery;
 import hcmute.edu.vn.foody_10.Fragment.FindBeverageFragment;
 import hcmute.edu.vn.foody_10.Fragment.FindFoodFragment;
 import hcmute.edu.vn.foody_10.Fragment.FindRestaurantFragment;
+import hcmute.edu.vn.foody_10.Model.CategoryModel;
+import hcmute.edu.vn.foody_10.Model.RestaurantModel;
+import hcmute.edu.vn.foody_10.Model.UserModel;
 import hcmute.edu.vn.foody_10.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,8 +64,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         binding();
 
+
         database = new Database(this, Constants.DATABASE, null, 1);
         setViewPager();
+
 
         bnvMain.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -66,18 +77,18 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.mnuHome:
                         break;
                     case R.id.mnuNotification:
-                        if(Common.currentUserModel != null){
+                        if (Common.currentUserModel != null) {
                             Intent intentNotification = new Intent(MainActivity.this, NotificationActivity.class);
                             startActivity(intentNotification);
-                        }else{
+                        } else {
                             checkLoginUser();
                         }
                         break;
                     case R.id.mnuCart:
-                        if(Common.currentUserModel != null){
+                        if (Common.currentUserModel != null) {
                             Intent intentCart = new Intent(MainActivity.this, PurchaseListUserActivity.class);
                             startActivity(intentCart);
-                        }else{
+                        } else {
                             checkLoginUser();
                         }
                         break;
@@ -92,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        loadDatabaseTable();
     }
 
     private void binding() {
@@ -271,5 +283,195 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void loadDatabaseTable() {
+        IRestaurantQuery restaurantQuery = RestaurantQuery.getInstance();
+        if (restaurantQuery.findAll() == null) {
+            // CREATE TABLE USER
+            database.QueryData("create table if not exists user (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "name varchar(255)," +
+                    "email varchar(255) unique, " +
+                    "password varchar(20)," +
+                    "avatar blob," +
+                    "phone varchar(20)," +
+                    "address varchar(255)," +
+                    "credit_card varchar(50)" +
+                    ")");
 
+            // CREATE TABLE RESTAURANT
+            database.QueryData("create table if not exists restaurant(" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "user_id INTEGER, " +
+                    "restaurant_photo blob, " +
+                    "name varchar(255), " +
+                    "description varchar(255), " +
+                    "date_time varchar(255), " +
+                    "range_price varchar(255)" +
+                    ")");
+
+            // CREATE TABLE CATEGORY
+            database.QueryData("create table if not exists category(" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "name varchar(50), " +
+                    "code varchar(20)" +
+                    ")");
+
+            // CREATE TABLE FOOD
+            database.QueryData("create table if not exists food (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "photo_food blob, " +
+                    "food_name varchar(255), " +
+                    "food_description varchar(255), " +
+                    "price float, " +
+                    "user_id INTEGER," +
+                    "category_id INTEGER" +
+                    ")");
+
+            // CREATE TABLE COMMENT
+            database.QueryData("create table if not exists comment(" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "message varchar(255), " +
+                    "date_time INTEGER, " +
+                    "user_id INTEGER, " +
+                    "product_id INTEGER" +
+                    ")");
+
+            // CREATE  TABLE ORDER
+            database.QueryData("create table if not exists orders (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "photo_food blob, " +
+                    "count INTEGER, " +
+                    "food_name varchar(255), " +
+                    "food_description varchar(255), " +
+                    "price float, " +
+                    "product_id INTEGER, " +
+                    "user_id INTEGER" +
+                    ")");
+
+            //CREATE RECEIPT
+            database.QueryData("create table if not exists receipt(" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "user_id INTEGER, " +
+                    "product_id INTEGER, " +
+                    "total_count INTEGER, " +
+                    "total_price float, " +
+                    "code varchar(255)" +
+                    ")");
+
+            IUserQuery userQuery = UserQuery.getInstance();
+            IRestaurantQuery resQuery = RestaurantQuery.getInstance();
+            ICategoryQuery categoryQuery = CategoryQuery.getInstance();
+            // Thêm category gồm nước và thức ăn
+
+            // Category Thức ăn
+            CategoryModel categoryFood = new CategoryModel();
+            categoryFood.setName("Đồ ăn");
+            categoryFood.setCode("DA");
+
+            categoryQuery.insert(categoryFood);
+
+            //Category nước uống
+            CategoryModel categoryBeverage = new CategoryModel();
+            categoryBeverage.setName("Đồ uống");
+            categoryBeverage.setCode("DU");
+            categoryQuery.insert(categoryBeverage);
+
+            // ********************* Quán nước Phúc Long *********************
+
+            ImageView imageDefaultUser = new ImageView(this);
+            imageDefaultUser.setImageResource(R.drawable.default_profile);
+            //Tạo User 1 với nhà hàng 1 (Phúc Long)
+            UserModel userPhucLong = new UserModel();
+            userPhucLong.setName("Thanh Tuyền");
+            userPhucLong.setEmail("thanhtuyen@gmail.com");
+            userPhucLong.setPassword("123456");
+            userPhucLong.setAvatar(Utils.convertImageViewToBytes(imageDefaultUser));
+            userPhucLong.setAddress("Tầng Trệt,  Tầng G Crescent Mall, 101 Tôn Dật Tiên, P. Tân Phú, Quận 7, TP. HCM");
+            userPhucLong.setPhone("012345678");
+
+            ImageView imageViewPhucLong = new ImageView(this);
+            imageViewPhucLong.setImageResource(R.drawable.phuclong);
+            userQuery.insert(userPhucLong); // id = 1
+
+            RestaurantModel restaurantPhucLong = new RestaurantModel();
+            restaurantPhucLong.setUserId(1);
+            restaurantPhucLong.setRestaurantPhoto(Utils.convertImageViewToBytes(imageViewPhucLong));
+            restaurantPhucLong.setName("Phúc Long 42 Ngô Đức Kế");
+            restaurantPhucLong.setDescription("Café/Dessert-Món Việt- Sinh viên, Nhóm hội");
+            restaurantPhucLong.setDate_time("08:00 - 20:45 ");
+            restaurantPhucLong.setRangePrice("25.000đ - 77.000đ");
+            resQuery.insert(restaurantPhucLong);
+
+            // ********************* Quán ăn ChangHi *********************
+
+            UserModel userChangHi = new UserModel();
+            userChangHi.setName("Chang Hi");
+            userChangHi.setEmail("changhi@gmail.com");
+            userChangHi.setPassword("123456");
+            userChangHi.setAvatar(Utils.convertImageViewToBytes(imageDefaultUser));
+            userChangHi.setPhone("0375489103");
+            userChangHi.setAddress("107 Nơ Trang Long, P. 11, Quận Bình Thạnh, TP. HCM");
+
+            userQuery.insert(userChangHi); // id = 2
+
+            ImageView imageViewChangHi = new ImageView(this);
+            imageViewChangHi.setImageResource(R.drawable.che_chang_hi);
+
+            RestaurantModel restaurantChangHi = new RestaurantModel();
+            restaurantChangHi.setUserId(2);
+            restaurantChangHi.setRestaurantPhoto(Utils.convertImageViewToBytes(imageViewChangHi));
+            restaurantChangHi.setName("Chang Hi - Chè Thốt Nốt, Chè Dừa Non & Chè Xoài Hong Kong");
+            restaurantChangHi.setDescription("Quán ăn - Món Việt - Sinh Viên");
+            restaurantChangHi.setDate_time("08:00 - 12:00 | 13:00 - 18:00 ");
+            restaurantChangHi.setRangePrice("28.000đ - 35.000đ");
+
+            resQuery.insert(restaurantChangHi);
+
+            // ********************* Quán nước ChangHi *********************
+            UserModel userGongCha = new UserModel();
+            userGongCha.setName("Gong Cha");
+            userGongCha.setEmail("gongcha@gmail.com");
+            userGongCha.setPassword("123456");
+            userGongCha.setAvatar(Utils.convertImageViewToBytes(imageDefaultUser));
+            userGongCha.setPhone("099882732");
+            userGongCha.setAddress("240 Phan Xích Long, P. 7, Quận Phú Nhuận, TP. HCM");
+            userQuery.insert(userGongCha); // id = 3
+
+            ImageView imageViewGongCha = new ImageView(this);
+            imageViewGongCha.setImageResource(R.drawable.gongcha);
+            RestaurantModel restaurantGongCha = new RestaurantModel();
+            restaurantGongCha.setUserId(3);
+            restaurantGongCha.setRestaurantPhoto(Utils.convertImageViewToBytes(imageViewGongCha));
+            restaurantGongCha.setName("Trà Sữa Gong Cha - Phan Xích Long");
+            restaurantGongCha.setDescription("Café/Dessert-Đài Loan- Sinh viên, Cặp đôi");
+            restaurantGongCha.setDate_time("09:00 - 22:00 ");
+            restaurantGongCha.setRangePrice("40.000đ - 80.000đ");
+
+            resQuery.insert(restaurantGongCha);
+
+            // ********************* Gà rán KFC *********************
+            UserModel userHoaiPhong = new UserModel();
+            userHoaiPhong.setName("Hoài Phong");
+            userHoaiPhong.setEmail("hoaiphong@gmail.com");
+            userHoaiPhong.setPassword("123456");
+            userHoaiPhong.setAvatar(Utils.convertImageViewToBytes(imageDefaultUser));
+            userHoaiPhong.setPhone("0375489103");
+            userHoaiPhong.setAddress("255 - 257 Trần Phú, P. Cẩm Tây, Tp. Cẩm Phả, Quảng Ninh");
+            userQuery.insert(userHoaiPhong); // id = 4
+
+            ImageView imageViewKFC = new ImageView(this);
+            imageViewKFC.setImageResource(R.drawable.ga_ran_kfc);
+            RestaurantModel restaurantKFC = new RestaurantModel();
+            restaurantKFC.setUserId(4);
+            restaurantKFC.setRestaurantPhoto(Utils.convertImageViewToBytes(imageViewKFC));
+            restaurantKFC.setName("Gà Rán KFC - Trần Phú");
+            restaurantKFC.setDescription("Quán ăn");
+            restaurantKFC.setDate_time("09:00 - 22:00");
+            restaurantKFC.setRangePrice("50.000đ - 500.000đ");
+
+            resQuery.insert(restaurantKFC);
+        }
+
+    }
 }
+

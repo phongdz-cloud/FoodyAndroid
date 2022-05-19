@@ -47,7 +47,7 @@ public class FindRestaurantAdapter extends RecyclerView.Adapter<FindRestaurantAd
 
         holder.ivRestaurant.setImageBitmap(Utils.convertBytesToBitMap(restaurantModel.getRestaurantPhoto()));
         String foodName = restaurantModel.getName();
-        if (foodName.length() > 20) {
+        if (foodName.length() > 12) {
             foodName = foodName.substring(0, 20);
         }
         holder.tvResName.setText(foodName + "...");

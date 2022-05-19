@@ -72,7 +72,7 @@ public class FindFoodAdapter extends RecyclerView.Adapter<FindFoodAdapter.FindFo
         holder.ivAddFood.setOnClickListener(view -> {
             if (Common.currentUserModel != null) {
                 if (context.getClass().equals(DetailRestaurantActivity.class)) {
-                    final OrderModel orderByFoodName = orderQuery.findByProductId(foodModel.getId());
+                    final OrderModel orderByFoodName = orderQuery.findByProductIdAndUserId(foodModel.getId(), Common.currentUserModel.getId());
                     if (orderByFoodName == null) {
                         OrderModel orderModel = new OrderModel();
                         orderModel.setPhotoFood(foodModel.getPhotoFood());
@@ -81,7 +81,7 @@ public class FindFoodAdapter extends RecyclerView.Adapter<FindFoodAdapter.FindFo
                         orderModel.setFoodDescription(foodModel.getFoodDescription());
                         orderModel.setPrice(foodModel.getPrice());
                         orderModel.setProductId(foodModel.getId());
-                        orderModel.setUserId(foodModel.getUserId());
+                        orderModel.setUserId(Common.currentUserModel.getId());
                         final Long insertOrder = orderQuery.insert(orderModel);
                         if (insertOrder > 0) {
                             Toast.makeText(context, "Đặt giỏ hàng thành công!", Toast.LENGTH_SHORT).show();
@@ -160,7 +160,6 @@ public class FindFoodAdapter extends RecyclerView.Adapter<FindFoodAdapter.FindFo
             tvFoodName = itemView.findViewById(R.id.tvFoodName);
             tvFoodDescription = itemView.findViewById(R.id.tvFoodDescription);
             tvPrice = itemView.findViewById(R.id.tvPrice);
-
         }
     }
 }

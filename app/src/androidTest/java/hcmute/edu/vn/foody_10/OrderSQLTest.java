@@ -146,7 +146,7 @@ public class OrderSQLTest {
 
     @Test
     public void testCreateTableOrder() {
-        String sql = "create table if not exists orders (" +
+        database.QueryData("create table if not exists orders (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "photo_food blob, " +
                 "count INTEGER, " +
@@ -155,7 +155,6 @@ public class OrderSQLTest {
                 "price float, " +
                 "product_id INTEGER, " +
                 "user_id INTEGER" +
-                ")";
-        database.QueryData(sql);
+                ")");
     }
 }

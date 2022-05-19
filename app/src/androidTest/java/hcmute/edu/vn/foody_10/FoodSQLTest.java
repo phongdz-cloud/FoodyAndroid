@@ -118,6 +118,16 @@ public class FoodSQLTest {
                 "category_id INTEGER" +
                 ")";
 
-        database.QueryData(sql);
+        database.QueryData("create table if not exists food (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "photo_food blob, " +
+                "food_name varchar(255), " +
+                "food_description varchar(255), " +
+                "price float, " +
+                "user_id INTEGER," +
+                "category_id INTEGER" +
+                ")");
+
+
     }
 }
